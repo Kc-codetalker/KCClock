@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#004AB9</color> <!-- originally #008577 -->
+    <color name="colorPrimaryDark">#003480</color> <!-- originally #00574B -->
+    <color name="colorAccent">#004AB9</color> <!-- originally #D81B60 -->
+
+    <color name="activeTextColor">#000000</color>
+    <color name="activeTextColorDark">#EEEEEE</color>
+    <color name="inactiveTextColor">#888888</color>
+    <color name="inactiveTextColorDark">#888888</color>
+
+    <color name="bgColor">#FFFFFF</color>
+    <color name="bgColorDark">#000000</color>
+    <color name="activeItemBgColor">#EEEEEE</color>
+    <color name="activeItemBgColorDark">#313131</color>
+    <color name="inactiveItemBgColor">#313131</color>
+    <color name="inactiveItemBgColorDark">#212121</color>
+
+    <color name="dangerColor">#FF0000</color>
+    <color name="successColor">#009688</color>
+
+    <color name="metaTextColor">#AEAEAE</color>
 </resources>

@@ -1,11 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item> <!-- Warna app bar -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!-- Warna status/notif bar -->
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="LightTheme" parent="AppTheme">
+        <item name="activeTextColor">@color/activeTextColor</item>
+        <item name="inactiveTextColor">@color/inactiveTextColor</item>
+        <item name="bgColor">@color/bgColor</item>
+        <item name="activeItemBgColor">@color/activeItemBgColor</item>
+        <item name="inactiveItemBgColor">@color/inactiveItemBgColor</item>
+    </style>
+
+    <style name="DarkTheme" parent="AppTheme">
+        <item name="activeTextColor">@color/activeTextColorDark</item>
+        <item name="inactiveTextColor">@color/inactiveTextColorDark</item>
+        <item name="bgColor">@color/bgColorDark</item>
+        <item name="activeItemBgColor">@color/activeItemBgColorDark</item>
+        <item name="inactiveItemBgColor">@color/inactiveItemBgColorDark</item>
     </style>
 
 </resources>

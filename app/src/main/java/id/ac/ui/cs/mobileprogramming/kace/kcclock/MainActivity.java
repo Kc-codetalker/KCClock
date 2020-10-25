@@ -1,6 +1,8 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        this.adjustActivityTheme(currentNightMode);
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -25,6 +30,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    private void adjustActivityTheme(int currentNightMode) {
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                setTheme(R.style.LightTheme);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                setTheme(R.style.DarkTheme);
+                break;
+        }
     }
 
 }

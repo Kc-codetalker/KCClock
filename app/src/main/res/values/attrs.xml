@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="bgColor" format="color"/>
+    <attr name="activeTextColor" format="color"/>
+    <attr name="inactiveTextColor" format="color"/>
+    <attr name="activeItemBgColor" format="color"/>
+    <attr name="inactiveItemBgColor" format="color"/>
+
+    <attr name="metaTextColor" format="color"/>
+</resources>
