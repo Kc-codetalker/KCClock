@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">KCClock</string>
+    <string name="appbar_clock">KCClock</string>
+    <string name="appbar_alarm_list">KCClock - Alarms</string>
     <string name="title_clock">Clock</string>
     <string name="title_alarm">Alarm</string>
     <string name="action_settings">Settings</string>
