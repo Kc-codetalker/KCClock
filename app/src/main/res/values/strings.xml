@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">KCClock</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_clock">Clock</string>
     <string name="title_alarm">Alarm</string>
     <string name="action_settings">Settings</string>
