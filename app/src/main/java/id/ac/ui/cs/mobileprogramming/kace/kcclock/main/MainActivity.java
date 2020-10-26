@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.kace.kcclock;
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.main;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
 public class MainActivity extends AppCompatActivity {
 
