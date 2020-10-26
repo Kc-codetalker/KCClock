@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/main_nav_clock">
+
+    <fragment
+        android:id="@+id/main_nav_clock"
+        android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.main.clock.ClockFragment"
+        android:label="KCClock"
+        tools:layout="@layout/fragment_clock" />
+    <fragment
+        android:id="@+id/main_nav_alarm"
+        android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarm.AlarmFragment"
+        android:label="KCClock - Alarms"
+        tools:layout="@layout/fragment_alarm" />
+</navigation>
