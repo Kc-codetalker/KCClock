@@ -1,21 +1,25 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, AlarmDetailActivity.class);
+            startActivity(intent);
             return true;
         }
 
