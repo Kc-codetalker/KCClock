@@ -5,6 +5,7 @@
     <attr name="inactiveTextColor" format="color"/>
     <attr name="activeItemBgColor" format="color"/>
     <attr name="inactiveItemBgColor" format="color"/>
+    <attr name="buttonTextAllCaps" format="boolean"/>
 
     <attr name="metaTextColor" format="color"/>
 </resources>
