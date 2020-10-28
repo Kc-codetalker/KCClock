@@ -9,7 +9,7 @@ public class AlarmViewModel extends ViewModel {
 
     public AlarmViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm fragment");
+        mText.setValue("This is alarm fragment");
     }
 
     public LiveData<String> getText() {

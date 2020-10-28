@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.main.clock.ClockViewModel;
 
 public class AlarmFragment extends Fragment {
 
@@ -28,24 +27,21 @@ public class AlarmFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        alarmViewModel =
-                ViewModelProviders.of(this).get(AlarmViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_alarm, container, false);
-        final TextView textView = root.findViewById(R.id.text_alarm);
-        alarmViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        return inflater.inflate(R.layout.fragment_alarm, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         alarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
-        // TODO: Use the ViewModel
+
+        final TextView textView = getView().findViewById(R.id.text_alarm);
+        alarmViewModel.getText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
     }
 
 }

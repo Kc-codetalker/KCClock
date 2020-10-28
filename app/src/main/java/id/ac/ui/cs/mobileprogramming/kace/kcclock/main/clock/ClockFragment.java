@@ -27,24 +27,21 @@ public class ClockFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        clockViewModel =
-                ViewModelProviders.of(this).get(ClockViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_clock, container, false);
-        final TextView textView = root.findViewById(R.id.text_clock);
-        clockViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        return inflater.inflate(R.layout.fragment_clock, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         clockViewModel = ViewModelProviders.of(this).get(ClockViewModel.class);
-        // TODO: Use the ViewModel
+
+        final TextView textView = getView().findViewById(R.id.text_clock);
+        clockViewModel.getText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
     }
 
 }
