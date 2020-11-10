@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutTimeBased"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="14sp"
+    android:layout_height="wrap_content"
     tools:context=".alarm.TimeBasedAlarmFragment">
 
     <TimePicker
@@ -23,9 +22,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
         android:gravity="fill"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxVibrate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +42,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectMon"
@@ -58,8 +56,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectTue"
@@ -73,8 +70,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectWed"
@@ -88,8 +84,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectThu"
@@ -103,8 +98,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectFri"
@@ -118,8 +112,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1" >
-        </Space>
+            android:layout_weight="1"></Space>
 
         <ToggleButton
             android:id="@+id/btnDaySelectSat"
@@ -132,5 +125,31 @@
 
 
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkBoxVibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8sp"
+        android:layout_weight="1"
+        android:text="Vibrate"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxSound"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="16sp"
+        android:text="Sound"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxVibrate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

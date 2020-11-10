@@ -47,7 +47,9 @@
                     android:id="@id/sectionTimeBased"
                     android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.TimeBasedAlarmFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16sp"
+                    android:layout_marginRight="16sp" />
 
                 <RadioButton
                     android:id="@+id/radioButtonEventBased"
