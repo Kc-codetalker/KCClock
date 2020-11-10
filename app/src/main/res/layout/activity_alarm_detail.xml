@@ -25,9 +25,11 @@
 
             <RadioGroup
                 android:id="@+id/alarmTypeRadioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:checkedButton="@id/radioButtonTimeBased"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -41,21 +43,11 @@
                     android:textColor="?attr/activeTextColor"
                     android:textSize="22sp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/sectionTimeBased"
+                <fragment
+                    android:id="@id/sectionTimeBased"
+                    android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.TimeBasedAlarmFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:fontFamily="@font/roboto_light"
-                        android:text="@string/app_name"
-                        android:textColor="?attr/activeTextColor"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="match_parent" />
 
                 <RadioButton
                     android:id="@+id/radioButtonEventBased"

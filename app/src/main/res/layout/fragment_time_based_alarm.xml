@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutTimeBased"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="14sp"
+    tools:context=".alarm.TimeBasedAlarmFragment">
+
+    <TimePicker
+        android:id="@+id/sectionTimeBased"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="fill"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sectionTimeBased">
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectSun"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_sunday_text"
+            android:textOff="@string/initial_sunday"
+            android:textOn="@string/initial_sunday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectMon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_monday"
+            android:textOn="@string/initial_monday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectTue"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_tuesday"
+            android:textOn="@string/initial_tuesday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectWed"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_wednesday"
+            android:textOn="@string/initial_wednesday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectThu"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_thursday"
+            android:textOn="@string/initial_thursday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectFri"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_friday"
+            android:textOn="@string/initial_friday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectSat"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_saturday"
+            android:textOn="@string/initial_saturday" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
