@@ -16,7 +16,7 @@
     <color name="inactiveItemBgColor">#313131</color>
     <color name="inactiveItemBgColorDark">#212121</color>
 
-    <color name="dangerColor">#FF0000</color>
+    <color name="dangerColor">#BF1919</color>
     <color name="successColor">#009688</color>
 
     <color name="metaTextColor">#AEAEAE</color>
