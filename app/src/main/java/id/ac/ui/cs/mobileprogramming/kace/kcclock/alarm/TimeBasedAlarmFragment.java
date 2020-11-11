@@ -89,8 +89,7 @@ public class TimeBasedAlarmFragment extends Fragment {
             alarmViewModel.getIsRingThu().observe(this, is -> toggleThu.setChecked(is));
             alarmViewModel.getIsRingFri().observe(this, is -> toggleFri.setChecked(is));
             alarmViewModel.getIsRingSat().observe(this, is -> toggleSat.setChecked(is));
-
-            setAlarmDescText();
+            alarmViewModel.getAlarmDayDesc().observe(this, desc -> alarmDesc.setText(desc));
         } catch (NullPointerException e) {
             Log.d("TimeBasedAlarmViewModel", e.toString());
         }
@@ -129,7 +128,7 @@ public class TimeBasedAlarmFragment extends Fragment {
                 + " "
                 + android.text.TextUtils.join(", ", days);
 
-        alarmDesc.setText(desc);
+        alarmViewModel.setAlarmDayDesc(desc);
     }
 
     public void onDayToggle() {

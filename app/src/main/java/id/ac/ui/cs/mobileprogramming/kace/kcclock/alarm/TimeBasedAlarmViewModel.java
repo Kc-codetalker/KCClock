@@ -17,6 +17,16 @@ public class TimeBasedAlarmViewModel extends ViewModel {
     private MutableLiveData<Boolean> isRingFri = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingSat = new MutableLiveData<>();
 
+    public MutableLiveData<String> getAlarmDayDesc() {
+        return alarmDayDesc;
+    }
+
+    public void setAlarmDayDesc(String alarmDayDesc) {
+        this.alarmDayDesc.setValue(alarmDayDesc);
+    }
+
+    private MutableLiveData<String> alarmDayDesc = new MutableLiveData<>();
+
     public MutableLiveData<Integer> getHour() {
         return hour;
     }
