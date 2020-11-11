@@ -44,7 +44,7 @@
                     android:textSize="22sp" />
 
                 <fragment
-                    android:id="@id/sectionTimeBased"
+                    android:id="@+id/sectionTimeBased"
                     android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.TimeBasedAlarmFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -85,8 +85,9 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/roboto_medium"
         android:background="?android:attr/selectableItemBackground"
+        android:fontFamily="@font/roboto_medium"
+        android:onClick="onCancelButtonClicked"
         android:text="@string/action_cancel"
         android:textAllCaps="?attr/buttonTextAllCaps"
         android:textColor="@color/dangerColor"
@@ -101,8 +102,9 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:fontFamily="@font/roboto_medium"
         android:background="?android:attr/selectableItemBackground"
+        android:fontFamily="@font/roboto_medium"
+        android:onClick="onSaveButtonClicked"
         android:text="@string/action_save"
         android:textAllCaps="?attr/buttonTextAllCaps"
         android:textColor="@color/successColor"
