@@ -3,6 +3,8 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 import android.os.Build;
 import android.widget.TimePicker;
 
+/**
+ * Based on learntodroid's https://gist.github.com/learntodroid/c1637794bebb92241fafe2d183a3349b#file-timepickerutil-java */
 public class TimePickerUtil {
 
     public static int getTimePickerHour(TimePicker tp) {
