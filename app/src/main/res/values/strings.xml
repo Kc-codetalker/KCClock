@@ -18,4 +18,9 @@
     <string name="initial_thursday">T</string>
     <string name="initial_friday">F</string>
     <string name="initial_saturday">S</string>
+    <string name="sound">Sound</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="alarm_name_hint">Alarm name</string>
+    <string name="every_day">Every day</string>
+    <string name="next_time">Next time</string>
 </resources>
