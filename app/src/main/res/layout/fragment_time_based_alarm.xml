@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/alarmDayDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8sp"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/alarmDayDesc">
 
         <ToggleButton
             android:id="@+id/btnDaySelectSun"
@@ -144,6 +144,8 @@
         android:ems="10"
         android:hint="@string/alarm_name_hint"
         android:inputType="textPersonName"
+        android:textColor="?attr/activeTextColor"
+        android:textColorHint="?attr/inactiveTextColor"
         app:layout_constraintBottom_toTopOf="@+id/checkBoxVibrate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
