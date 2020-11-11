@@ -18,9 +18,17 @@
     <string name="initial_thursday">T</string>
     <string name="initial_friday">F</string>
     <string name="initial_saturday">S</string>
+    <string name="short_sunday">Sun</string>
+    <string name="short_monday">Mon</string>
+    <string name="short_tuesday">Tue</string>
+    <string name="short_wednesday">Wed</string>
+    <string name="short_thursday">Thu</string>
+    <string name="short_friday">Fri</string>
+    <string name="short_saturday">Sat</string>
     <string name="sound">Sound</string>
     <string name="vibrate">Vibrate</string>
     <string name="alarm_name_hint">Alarm name</string>
+    <string name="every">Every</string>
     <string name="every_day">Every day</string>
     <string name="next_time">Next time</string>
 </resources>

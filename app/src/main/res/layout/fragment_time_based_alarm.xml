@@ -24,12 +24,12 @@
         android:layout_marginBottom="8sp"
         android:text="@string/next_time"
         android:textColor="?attr/inactiveTextColor"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/dayTogglesLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarmTimePicker" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/dayTogglesLayout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:gravity="fill"
@@ -133,7 +133,6 @@
             android:textOff="@string/initial_saturday"
             android:textOn="@string/initial_saturday" />
 
-
     </LinearLayout>
 
     <EditText
@@ -149,7 +148,7 @@
         app:layout_constraintBottom_toTopOf="@+id/checkBoxVibrate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/dayTogglesLayout"
         android:importantForAutofill="no" />
 
     <CheckBox

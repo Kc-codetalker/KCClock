@@ -2,7 +2,7 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.os.Build;
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +37,7 @@ public class TimeBasedAlarmFragment extends Fragment {
     @BindView(R.id.btnDaySelectThu) ToggleButton toggleThu;
     @BindView(R.id.btnDaySelectFri) ToggleButton toggleFri;
     @BindView(R.id.btnDaySelectSat) ToggleButton toggleSat;
+    @BindView(R.id.alarmDayDesc) TextView alarmDesc;
 
     private TimeBasedAlarmViewModel alarmViewModel;
 
@@ -46,6 +50,13 @@ public class TimeBasedAlarmFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_based_alarm, container, false);
         ButterKnife.bind(this, view);
+        toggleSun.setOnClickListener(v -> onDayToggle());
+        toggleMon.setOnClickListener(v -> onDayToggle());
+        toggleTue.setOnClickListener(v -> onDayToggle());
+        toggleWed.setOnClickListener(v -> onDayToggle());
+        toggleThu.setOnClickListener(v -> onDayToggle());
+        toggleFri.setOnClickListener(v -> onDayToggle());
+        toggleSat.setOnClickListener(v -> onDayToggle());
         return view;
     }
 
@@ -78,9 +89,51 @@ public class TimeBasedAlarmFragment extends Fragment {
             alarmViewModel.getIsRingThu().observe(this, is -> toggleThu.setChecked(is));
             alarmViewModel.getIsRingFri().observe(this, is -> toggleFri.setChecked(is));
             alarmViewModel.getIsRingSat().observe(this, is -> toggleSat.setChecked(is));
+
+            setAlarmDescText();
         } catch (NullPointerException e) {
             Log.d("TimeBasedAlarmViewModel", e.toString());
         }
+    }
+
+    private void setAlarmDescText() {
+        Activity activity = getActivity();
+        ArrayList<String> days = new ArrayList<>();
+        String desc = activity.getString(R.string.next_time);
+
+        if (toggleSun.isChecked()){
+            days.add(activity.getString(R.string.short_sunday));
+        }
+        if (toggleMon.isChecked()) {
+            days.add(activity.getString(R.string.short_monday));
+        }
+        if (toggleTue.isChecked()) {
+            days.add(activity.getString(R.string.short_tuesday));
+        }
+        if (toggleWed.isChecked()) {
+            days.add(activity.getString(R.string.short_wednesday));
+        }
+        if (toggleThu.isChecked()) {
+            days.add(activity.getString(R.string.short_thursday));
+        }
+        if (toggleFri.isChecked()) {
+            days.add(activity.getString(R.string.short_friday));
+        }
+        if (toggleSat.isChecked()) {
+            days.add(activity.getString(R.string.short_saturday));
+        }
+
+        int dayCount = days.size();
+        if (dayCount == 7) desc = activity.getString(R.string.every_day);
+        else if (dayCount > 0) desc = activity.getString(R.string.every)
+                + " "
+                + android.text.TextUtils.join(", ", days);
+
+        alarmDesc.setText(desc);
+    }
+
+    public void onDayToggle() {
+        setAlarmDescText();
     }
 
     private void saveStateToViewModel() {
