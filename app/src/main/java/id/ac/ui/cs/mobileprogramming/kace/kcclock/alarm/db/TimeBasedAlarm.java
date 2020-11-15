@@ -11,7 +11,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
-import java.util.Random;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
 

@@ -7,12 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Looper;
-import android.os.Process;
-import android.os.Message;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
@@ -31,44 +26,12 @@ public class AlarmRingService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
-//    private Looper serviceLooper;
-//    private ServiceHandler serviceHandler;
-
     public AlarmRingService() {
     }
-
-    // Handler that receives messages from the thread
-//    private final class ServiceHandler extends Handler {
-//        public ServiceHandler(Looper looper) {
-//            super(looper);
-//        }
-//        @Override
-//        public void handleMessage(Message msg) {
-//            // Normally we would do some work here, like download a file.
-//            // For our sample, we just sleep for 5 seconds.
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                // Restore interrupt status.
-//                Thread.currentThread().interrupt();
-//            }
-//            // Stop the service using the startId, so that we don't stop
-//            // the service in the middle of handling another job
-//            stopSelf(msg.arg1);
-//        }
-//    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        HandlerThread thread = new HandlerThread("ServiceStartArguments",
-//                Process.THREAD_PRIORITY_BACKGROUND);
-//        thread.start();
-//
-//        // Get the HandlerThread's Looper and use it for our Handler
-//        serviceLooper = thread.getLooper();
-//        serviceHandler = new ServiceHandler(serviceLooper);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.pokemon_x_obtain_item);
         mediaPlayer.setLooping(true);
@@ -111,7 +74,6 @@ public class AlarmRingService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
