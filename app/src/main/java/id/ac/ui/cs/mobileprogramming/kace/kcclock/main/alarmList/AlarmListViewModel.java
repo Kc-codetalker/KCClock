@@ -1,13 +1,13 @@
-package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarm;
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarmList;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AlarmViewModel extends ViewModel {
+public class AlarmListViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public AlarmViewModel() {
+    public AlarmListViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is alarm fragment");
     }

@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_clock" />
     <fragment
         android:id="@+id/main_nav_alarm"
-        android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarm.AlarmFragment"
+        android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarmList.AlarmListFragment"
         android:label="@string/appbar_alarm_list"
-        tools:layout="@layout/fragment_alarm" />
+        tools:layout="@layout/fragment_alarm_list" />
 </navigation>

@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarm;
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarmList;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,27 +16,27 @@ import android.widget.TextView;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
-public class AlarmFragment extends Fragment {
+public class AlarmListFragment extends Fragment {
 
-    private AlarmViewModel alarmViewModel;
+    private AlarmListViewModel alarmListViewModel;
 
-    public static AlarmFragment newInstance() {
-        return new AlarmFragment();
+    public static AlarmListFragment newInstance() {
+        return new AlarmListFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_alarm, container, false);
+        return inflater.inflate(R.layout.fragment_alarm_list, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        alarmViewModel = ViewModelProviders.of(this).get(AlarmViewModel.class);
+        alarmListViewModel = ViewModelProviders.of(this).get(AlarmListViewModel.class);
 
         final TextView textView = getView().findViewById(R.id.text_alarm);
-        alarmViewModel.getText().observe(this, new Observer<String>() {
+        alarmListViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
