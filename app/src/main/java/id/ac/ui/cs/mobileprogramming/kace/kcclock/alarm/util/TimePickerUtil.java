@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util;
 
 import android.os.Build;
 import android.widget.TimePicker;
