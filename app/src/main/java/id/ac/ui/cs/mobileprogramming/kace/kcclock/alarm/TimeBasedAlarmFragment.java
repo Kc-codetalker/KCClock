@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util.TimePickerUtil;
 
 public class TimeBasedAlarmFragment extends Fragment {
     @BindView(R.id.alarmTimePicker) TimePicker timePicker;
@@ -151,24 +153,27 @@ public class TimeBasedAlarmFragment extends Fragment {
     }
 
     public void saveAlarm() {
-        int hour = TimePickerUtil.getTimePickerHour(this.timePicker);
-        int minute = TimePickerUtil.getTimePickerMinute(this.timePicker);
-        String alarmName = this.nameField.getText().toString();
-        boolean isVibrate = this.vibrateCheckBox.isChecked();
-        boolean isUseSound = this.soundCheckBox.isChecked();
-        boolean isRingSun = this.toggleSun.isChecked();
-        boolean isRingMon = this.toggleMon.isChecked();
-        boolean isRingTue = this.toggleTue.isChecked();
-        boolean isRingWed = this.toggleWed.isChecked();
-        boolean isRingThu = this.toggleThu.isChecked();
-        boolean isRingFri = this.toggleFri.isChecked();
-        boolean isRingSat = this.toggleSat.isChecked();
+//        int hour = TimePickerUtil.getTimePickerHour(this.timePicker);
+//        int minute = TimePickerUtil.getTimePickerMinute(this.timePicker);
+//        String alarmName = this.nameField.getText().toString();
+//        boolean isVibrate = this.vibrateCheckBox.isChecked();
+//        boolean isUseSound = this.soundCheckBox.isChecked();
+//        boolean isRingSun = this.toggleSun.isChecked();
+//        boolean isRingMon = this.toggleMon.isChecked();
+//        boolean isRingTue = this.toggleTue.isChecked();
+//        boolean isRingWed = this.toggleWed.isChecked();
+//        boolean isRingThu = this.toggleThu.isChecked();
+//        boolean isRingFri = this.toggleFri.isChecked();
+//        boolean isRingSat = this.toggleSat.isChecked();
         this.saveStateToViewModel();
-        Log.d("Hour:", Integer.toString(hour));
-        Log.d("Minute:", Integer.toString(minute));
-        Log.d("Name:", alarmName);
-        Log.d("Vibrate:", Boolean.toString(isVibrate));
-        Log.d("Sound:", Boolean.toString(isUseSound));
+        TimeBasedAlarm alarm = alarmViewModel.createAlarm();
+        alarm.logging();
+        alarm.scheduleAlarm(getContext());
+//        Log.d("Hour:", Integer.toString(hour));
+//        Log.d("Minute:", Integer.toString(minute));
+//        Log.d("Name:", alarmName);
+//        Log.d("Vibrate:", Boolean.toString(isVibrate));
+//        Log.d("Sound:", Boolean.toString(isUseSound));
     }
 
 }

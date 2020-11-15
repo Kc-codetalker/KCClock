@@ -137,5 +137,6 @@ public class AlarmDetailActivity extends AppCompatActivity {
         } else {
             Log.d("Event based selected!", "Not implemented yet!!");
         }
+        finish();
     }
 }

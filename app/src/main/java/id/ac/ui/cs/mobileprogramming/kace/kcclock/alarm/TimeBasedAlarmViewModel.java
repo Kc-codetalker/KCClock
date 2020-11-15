@@ -3,6 +3,8 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+
 public class TimeBasedAlarmViewModel extends ViewModel {
     private MutableLiveData<Integer> hour = new MutableLiveData<>();
     private MutableLiveData<Integer> minute = new MutableLiveData<>();
@@ -121,5 +123,13 @@ public class TimeBasedAlarmViewModel extends ViewModel {
 
     public void setIsRingSat(Boolean isRingSat) {
         this.isRingSat.setValue(isRingSat);
+    }
+
+    public TimeBasedAlarm createAlarm() {
+        TimeBasedAlarm alarm = new TimeBasedAlarm(hour.getValue(), minute.getValue(), true,
+                isVibrate.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
+                isRingWed.getValue(), isRingThu.getValue(), isRingFri.getValue(), isRingSat.getValue(),
+                alarmName.getValue());
+        return alarm;
     }
 }
