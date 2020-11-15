@@ -24,6 +24,8 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.SUNDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.THURSDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TUESDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.WEDNESDAY;
 
 @Entity(tableName = "time_based_alarm")
@@ -42,6 +44,9 @@ public class TimeBasedAlarm {
     @ColumnInfo(name = "is_vibrate")
     private boolean isVibrate;
 
+    @ColumnInfo(name = "use_sound")
+    private boolean useSound;
+
     @ColumnInfo(name = "on_sunday")
     private boolean onSunday;
     @ColumnInfo(name = "on_monday")
@@ -59,7 +64,7 @@ public class TimeBasedAlarm {
 
     private String name;
 
-    public TimeBasedAlarm(int hour, int minute, boolean started, boolean vibrate,
+    public TimeBasedAlarm(int hour, int minute, boolean started, boolean vibrate, boolean sound,
                           boolean sunday, boolean monday, boolean tuesday, boolean wednesday,
                           boolean thursday, boolean friday, boolean saturday, String name) {
         this.hour = hour;
@@ -67,6 +72,7 @@ public class TimeBasedAlarm {
         this.hasStarted = started;
         this.isRecurring = sunday || monday || tuesday || wednesday || thursday || friday || saturday;
         this.isVibrate = vibrate;
+        this.useSound = sound;
         this.name = name;
 
         this.onSunday = sunday;
@@ -100,6 +106,8 @@ public class TimeBasedAlarm {
         intent.putExtra(NAME, name);
         intent.putExtra(HOUR, hour);
         intent.putExtra(MINUTE, minute);
+        intent.putExtra(VIBRATE, isVibrate);
+        intent.putExtra(USE_SOUND, useSound);
         Log.d("Name:", name);
         Log.d("Hour:", Integer.toString(hour));
         Log.d("Minute:", Integer.toString(minute));

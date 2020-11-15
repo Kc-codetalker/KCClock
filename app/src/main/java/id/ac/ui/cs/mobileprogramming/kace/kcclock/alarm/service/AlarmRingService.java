@@ -20,6 +20,8 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmRingActivity;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.CHANNEL_ID;
 
 public class AlarmRingService extends Service {
@@ -45,17 +47,21 @@ public class AlarmRingService extends Service {
         String name = intent.getStringExtra(NAME);
         int hour = intent.getIntExtra(HOUR, 0);
         int minute = intent.getIntExtra(MINUTE, 0);
+        boolean isVibrate = intent.getBooleanExtra(VIBRATE, false);
+        boolean useSound = intent.getBooleanExtra(USE_SOUND, false);
 
         Intent notificationIntent = new Intent(this, AlarmRingActivity.class);
         notificationIntent.putExtra(NAME, name);
         notificationIntent.putExtra(HOUR, hour);
         notificationIntent.putExtra(MINUTE, minute);
+        notificationIntent.putExtra(VIBRATE, isVibrate);
+        notificationIntent.putExtra(USE_SOUND, useSound);
         Log.d("Name notif:", name);
         Log.d("Hour notif:", Integer.toString(hour));
         Log.d("Minute notif:", Integer.toString(minute));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        this.startRinging();
+        this.startRinging(isVibrate, useSound);
 
         String alarmTitle = String.format("%s Alarm", name);
 
@@ -86,10 +92,10 @@ public class AlarmRingService extends Service {
         vibrator.cancel();
     }
 
-    private void startRinging() {
-        mediaPlayer.start();
+    private void startRinging(boolean isVibrate, boolean useSound) {
+        if (useSound) mediaPlayer.start();
 
-        if (vibrator.hasVibrator()) {
+        if (isVibrate && vibrator.hasVibrator()) {
             Log.d("Ada vibrator", "Seharusnya getar dong");
             Log.d("Hey", Integer.toString(Build.VERSION.SDK_INT));
             Log.d("Hey", Integer.toString(Build.VERSION_CODES.O));

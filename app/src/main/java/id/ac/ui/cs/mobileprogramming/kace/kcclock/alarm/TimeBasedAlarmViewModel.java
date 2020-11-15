@@ -127,7 +127,7 @@ public class TimeBasedAlarmViewModel extends ViewModel {
 
     public TimeBasedAlarm createAlarm() {
         TimeBasedAlarm alarm = new TimeBasedAlarm(hour.getValue(), minute.getValue(), true,
-                isVibrate.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
+                isVibrate.getValue(), isUseSound.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
                 isRingWed.getValue(), isRingThu.getValue(), isRingFri.getValue(), isRingSat.getValue(),
                 alarmName.getValue());
         return alarm;

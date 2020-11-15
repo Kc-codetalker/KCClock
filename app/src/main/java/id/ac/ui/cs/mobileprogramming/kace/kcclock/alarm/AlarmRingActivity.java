@@ -24,6 +24,8 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
 
 public class AlarmRingActivity extends AppCompatActivity {
     @BindView(R.id.dismissButton) Button dismiss;
@@ -35,6 +37,8 @@ public class AlarmRingActivity extends AppCompatActivity {
     private String name;
     private int hour;
     private int minute;
+    private boolean isVibrate;
+    private boolean useSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class AlarmRingActivity extends AppCompatActivity {
             cal.add(Calendar.MINUTE, R.integer.default_snooze_mins);
 
             TimeBasedAlarm alarm = new TimeBasedAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
-                    false, false, false, false, false, false,
+                    isVibrate, useSound, false, false, false, false, false,
                     false, false, name);
 
             Context ctx = getApplicationContext();
@@ -97,21 +101,23 @@ public class AlarmRingActivity extends AppCompatActivity {
         }
     }
 
-    private String getCalendarDateStr() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy");
-        String strDate = dateFormat.format(date);
-        return strDate;
-    }
-
     private void getIntentExtras(Calendar cal) {
         Intent intent = getIntent();
         name = intent.getStringExtra(NAME);
         hour = intent.getIntExtra(HOUR, cal.get(Calendar.HOUR_OF_DAY));
         minute = intent.getIntExtra(MINUTE, cal.get(Calendar.MINUTE));
+        isVibrate = intent.getBooleanExtra(VIBRATE, false);
+        useSound = intent.getBooleanExtra(USE_SOUND, false);
         Log.d("Name activity:", name);
         Log.d("Hour activity:", Integer.toString(hour));
         Log.d("Minute activity:", Integer.toString(minute));
+    }
+
+    private String getCalendarDateStr() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy");
+        String strDate = dateFormat.format(date);
+        return strDate;
     }
 
     private void setUIData(Calendar cal) {
