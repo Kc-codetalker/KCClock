@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -130,13 +131,8 @@ public class TimeBasedAlarm {
         // "Send" alarm pendingIntent to alarmManager
         if (!isRecurring) {
             // One-time alarm
-//            String toastText = null;
-//            try {
-//                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, id);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show();
+            String toastText = String.format("One Time Alarm %s scheduled at %02d:%02d", name, hour, minute);
+            Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show();
 
             alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
@@ -145,8 +141,8 @@ public class TimeBasedAlarm {
             );
         } else {
             // Recurring alarm
-//            String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
-//            Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show();
+            String toastText = String.format("Recurring Alarm %s scheduled at %02d:%02d", name, hour, minute);
+            Toast.makeText(ctx, toastText, Toast.LENGTH_LONG).show();
 
             final int A_DAY = 24*3600*1000;
             alarmManager.setRepeating(
