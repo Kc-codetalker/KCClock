@@ -35,13 +35,13 @@ public class AlarmListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         alarmListViewModel = ViewModelProviders.of(this).get(AlarmListViewModel.class);
 
-        final TextView textView = getView().findViewById(R.id.text_alarm);
-        alarmListViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+//        final TextView textView = getView().findViewById(R.id.text_alarm);
+//        alarmListViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
     }
 
 }
