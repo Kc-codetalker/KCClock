@@ -12,6 +12,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
+import java.util.Random;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
 
@@ -31,58 +32,59 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 
 @Entity(tableName = "time_based_alarm")
 public class TimeBasedAlarm {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    @PrimaryKey
+    int id;
 
-    private int hour, minute;
+    int hour, minute;
 
     @ColumnInfo(name = "has_started")
-    private boolean hasStarted;
+    boolean hasStarted;
 
     @ColumnInfo(name = "is_recurring")
-    private boolean isRecurring;
+    boolean isRecurring;
 
     @ColumnInfo(name = "is_vibrate")
-    private boolean isVibrate;
+    boolean isVibrate;
 
     @ColumnInfo(name = "use_sound")
-    private boolean useSound;
+    boolean useSound;
 
     @ColumnInfo(name = "on_sunday")
-    private boolean onSunday;
+    boolean onSunday;
     @ColumnInfo(name = "on_monday")
-    private boolean onMonday;
+    boolean onMonday;
     @ColumnInfo(name = "on_tuesday")
-    private boolean onTuesday;
+    boolean onTuesday;
     @ColumnInfo(name = "on_wednesday")
-    private boolean onWednesday;
+    boolean onWednesday;
     @ColumnInfo(name = "on_thursday")
-    private boolean onThursday;
+    boolean onThursday;
     @ColumnInfo(name = "on_friday")
-    private boolean onFriday;
+    boolean onFriday;
     @ColumnInfo(name = "on_saturday")
-    private boolean onSaturday;
+    boolean onSaturday;
 
-    private String name;
+    String name;
 
-    public TimeBasedAlarm(int hour, int minute, boolean started, boolean vibrate, boolean sound,
-                          boolean sunday, boolean monday, boolean tuesday, boolean wednesday,
-                          boolean thursday, boolean friday, boolean saturday, String name) {
+    public TimeBasedAlarm(int hour, int minute, boolean hasStarted, boolean isVibrate, boolean useSound,
+                          boolean onSunday, boolean onMonday, boolean onTuesday, boolean onWednesday,
+                          boolean onThursday, boolean onFriday, boolean onSaturday, String name) {
+        this.id = new Random().nextInt(Integer.MAX_VALUE);
         this.hour = hour;
         this.minute = minute;
-        this.hasStarted = started;
-        this.isRecurring = sunday || monday || tuesday || wednesday || thursday || friday || saturday;
-        this.isVibrate = vibrate;
-        this.useSound = sound;
+        this.hasStarted = hasStarted;
+        this.isRecurring = onSunday || onMonday || onTuesday || onWednesday || onThursday || onFriday || onSaturday;
+        this.isVibrate = isVibrate;
+        this.useSound = useSound;
         this.name = name;
 
-        this.onSunday = sunday;
-        this.onMonday = monday;
-        this.onTuesday = tuesday;
-        this.onWednesday = wednesday;
-        this.onThursday = thursday;
-        this.onFriday = friday;
-        this.onSaturday = saturday;
+        this.onSunday = onSunday;
+        this.onMonday = onMonday;
+        this.onTuesday = onTuesday;
+        this.onWednesday = onWednesday;
+        this.onThursday = onThursday;
+        this.onFriday = onFriday;
+        this.onSaturday = onSaturday;
     }
 
     public void logging() {
@@ -154,5 +156,16 @@ public class TimeBasedAlarm {
         }
 
         this.hasStarted = true;
+    }
+
+    public void disableAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TimeBasedAlarmReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, id, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+        this.hasStarted = false;
+
+        String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, id);
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
     }
 }
