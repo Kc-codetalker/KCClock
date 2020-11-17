@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayoutAlarmList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.alarmList.AlarmListFragment" >
+    tools:context=".main.alarmList.AlarmListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alarmListRecyclerView"
@@ -14,5 +14,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addAlarmFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

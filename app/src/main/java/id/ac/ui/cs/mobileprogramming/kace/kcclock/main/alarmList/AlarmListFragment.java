@@ -2,6 +2,7 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.alarmList;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
 public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlarmListener {
     @BindView(R.id.alarmListRecyclerView) RecyclerView alarmRecyclerView;
+    @BindView(R.id.addAlarmFab) FloatingActionButton fab;
 
     private AlarmListViewModel alarmListViewModel;
     private AlarmListAdapter alarmRecyclerViewAdapter;
@@ -51,13 +56,10 @@ public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlar
         alarmRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         alarmRecyclerView.setAdapter(alarmRecyclerViewAdapter);
 
-//        addAlarm = view.findViewById(R.id.fragment_listalarms_addAlarm);
-//        addAlarm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Navigation.findNavController(v).navigate(R.id.action_alarmsListFragment_to_createAlarmFragment);
-//            }
-//        });
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), AlarmDetailActivity.class);
+            startActivity(intent);
+        });
 
         return view;
     }
