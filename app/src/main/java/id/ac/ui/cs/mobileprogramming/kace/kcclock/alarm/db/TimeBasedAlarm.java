@@ -11,9 +11,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
@@ -33,38 +38,114 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 @Entity(tableName = "time_based_alarm")
 public class TimeBasedAlarm {
     @PrimaryKey
-    int id;
+    private int id;
 
-    int hour, minute;
+    private int hour, minute;
 
     @ColumnInfo(name = "has_started")
-    boolean hasStarted;
+    private boolean hasStarted;
 
     @ColumnInfo(name = "is_recurring")
-    boolean isRecurring;
+    private boolean isRecurring;
 
     @ColumnInfo(name = "is_vibrate")
-    boolean isVibrate;
+    private boolean isVibrate;
 
     @ColumnInfo(name = "use_sound")
-    boolean useSound;
+    private boolean useSound;
 
     @ColumnInfo(name = "on_sunday")
-    boolean onSunday;
+    private boolean onSunday;
     @ColumnInfo(name = "on_monday")
-    boolean onMonday;
+    private boolean onMonday;
     @ColumnInfo(name = "on_tuesday")
-    boolean onTuesday;
+    private boolean onTuesday;
     @ColumnInfo(name = "on_wednesday")
-    boolean onWednesday;
+    private boolean onWednesday;
     @ColumnInfo(name = "on_thursday")
-    boolean onThursday;
+    private boolean onThursday;
     @ColumnInfo(name = "on_friday")
-    boolean onFriday;
+    private boolean onFriday;
     @ColumnInfo(name = "on_saturday")
-    boolean onSaturday;
+    private boolean onSaturday;
 
-    String name;
+    private String name;
+
+    /**
+     * This is required for Entity to be compiled
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * This is required for Entity to be compiled
+     * @param recurring
+     */
+    public void setRecurring(boolean recurring) {
+        isRecurring = recurring;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public boolean isHasStarted() {
+        return hasStarted;
+    }
+
+    public boolean isRecurring() {
+        return isRecurring;
+    }
+
+    public boolean isVibrate() {
+        return isVibrate;
+    }
+
+    public boolean isUseSound() {
+        return useSound;
+    }
+
+    public boolean isOnSunday() {
+        return onSunday;
+    }
+
+    public boolean isOnMonday() {
+        return onMonday;
+    }
+
+    public boolean isOnTuesday() {
+        return onTuesday;
+    }
+
+    public boolean isOnWednesday() {
+        return onWednesday;
+    }
+
+    public boolean isOnThursday() {
+        return onThursday;
+    }
+
+    public boolean isOnFriday() {
+        return onFriday;
+    }
+
+    public boolean isOnSaturday() {
+        return onSaturday;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public TimeBasedAlarm(int hour, int minute, boolean hasStarted, boolean isVibrate, boolean useSound,
                           boolean onSunday, boolean onMonday, boolean onTuesday, boolean onWednesday,
@@ -85,10 +166,6 @@ public class TimeBasedAlarm {
         this.onThursday = onThursday;
         this.onFriday = onFriday;
         this.onSaturday = onSaturday;
-    }
-
-    public void logging() {
-        Log.d("Alarm ID nih:", Integer.toString(this.id));
     }
 
     public void scheduleAlarm(Context ctx) {
@@ -118,17 +195,7 @@ public class TimeBasedAlarm {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(ctx, this.id, intent, 0);
 
         // Create calendar for getting "when next time is"
-        Calendar calNextTime = Calendar.getInstance();
-        calNextTime.setTimeInMillis(System.currentTimeMillis());
-        calNextTime.set(Calendar.HOUR_OF_DAY, this.hour);
-        calNextTime.set(Calendar.MINUTE, this.minute);
-        calNextTime.set(Calendar.SECOND, 0);
-        calNextTime.set(Calendar.MILLISECOND, 0);
-
-        // if alarm time has already passed, increment day by 1 to schedule for "next time"
-        if (calNextTime.getTimeInMillis() <= System.currentTimeMillis()) {
-            calNextTime.set(Calendar.DAY_OF_MONTH, calNextTime.get(Calendar.DAY_OF_MONTH) + 1);
-        }
+        Calendar calNextTime = getNextTimeCal();
 
         // "Send" alarm pendingIntent to alarmManager
         if (!isRecurring) {
@@ -167,5 +234,56 @@ public class TimeBasedAlarm {
 
         String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, id);
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+    }
+
+    private Calendar getNextTimeCal() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.HOUR_OF_DAY, this.hour);
+        cal.set(Calendar.MINUTE, this.minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        // if alarm time has already passed, increment day by 1 to schedule for "next time"
+        if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
+            cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH) + 1);
+        }
+        return cal;
+    }
+
+    public String getRecurrenceStr(Context ctx) {
+        if (this.isRecurring) {
+            ArrayList<String> days = new ArrayList<>();
+
+            if (onSunday){
+                days.add(ctx.getString(R.string.short_sunday));
+            }
+            if (onMonday) {
+                days.add(ctx.getString(R.string.short_monday));
+            }
+            if (onTuesday) {
+                days.add(ctx.getString(R.string.short_tuesday));
+            }
+            if (onWednesday) {
+                days.add(ctx.getString(R.string.short_wednesday));
+            }
+            if (onThursday) {
+                days.add(ctx.getString(R.string.short_thursday));
+            }
+            if (onFriday) {
+                days.add(ctx.getString(R.string.short_friday));
+            }
+            if (onSaturday) {
+                days.add(ctx.getString(R.string.short_saturday));
+            }
+
+            int dayCount = days.size();
+            if (dayCount == 7) return ctx.getString(R.string.every_day);
+            else return android.text.TextUtils.join(", ", days);
+        }
+
+        Date date = this.getNextTimeCal().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("E, MMM dd");
+        return dateFormat.format(date);
     }
 }
