@@ -123,15 +123,7 @@ public class AlarmRingActivity extends AppCompatActivity {
     private void setUIData(Calendar cal) {
         nameView.setText(name);
 
-        String hourStr = Integer.toString(hour);
-        String minuteStr = Integer.toString(minute);
-        if (hourStr.length() == 1) {
-            hourStr = "0" + hour;
-        }
-        if (minuteStr.length() == 1) {
-            minuteStr = "0" + minute;
-        }
-        String time = hourStr + ":" + minuteStr;
+        String time = String.format("%02d:%02d", hour, minute);
         timeView.setText(time);
 
         String date = getCalendarDateStr();
