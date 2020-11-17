@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface TimeBasedAlarmDao {
 
-    @Query("SELECT * FROM time_based_alarm ORDER BY id ASC")
+    @Query("SELECT * FROM time_based_alarm ORDER BY hour ASC, minute ASC")
     LiveData<List<TimeBasedAlarm>> getAll();
 
     @Insert
