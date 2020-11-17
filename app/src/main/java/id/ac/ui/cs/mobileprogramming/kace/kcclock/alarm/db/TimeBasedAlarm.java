@@ -73,14 +73,6 @@ public class TimeBasedAlarm {
 
     /**
      * This is required for Entity to be compiled
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * This is required for Entity to be compiled
      * @param recurring
      */
     public void setRecurring(boolean recurring) {
@@ -147,10 +139,10 @@ public class TimeBasedAlarm {
         return name;
     }
 
-    public TimeBasedAlarm(int hour, int minute, boolean hasStarted, boolean isVibrate, boolean useSound,
+    public TimeBasedAlarm(int id, int hour, int minute, boolean hasStarted, boolean isVibrate, boolean useSound,
                           boolean onSunday, boolean onMonday, boolean onTuesday, boolean onWednesday,
                           boolean onThursday, boolean onFriday, boolean onSaturday, String name) {
-        this.id = new Random().nextInt(Integer.MAX_VALUE);
+        this.id = id;
         this.hour = hour;
         this.minute = minute;
         this.hasStarted = hasStarted;

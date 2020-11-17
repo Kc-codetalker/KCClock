@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,7 +16,7 @@ public interface TimeBasedAlarmDao {
     @Query("SELECT * FROM time_based_alarm ORDER BY hour ASC, minute ASC")
     LiveData<List<TimeBasedAlarm>> getAll();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(TimeBasedAlarm alarm);
 
     @Update

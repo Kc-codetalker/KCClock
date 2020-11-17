@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ public class AlarmDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         this.viewModel = ViewModelProviders.of(this).get(AlarmDetailActivityViewModel.class);
+        Intent intent = getIntent();
+        updateViewModelWithIntent(intent);
         setUIData();
 
         try
@@ -54,6 +57,20 @@ public class AlarmDetailActivity extends AppCompatActivity {
             case Configuration.UI_MODE_NIGHT_YES:
                 setTheme(R.style.DarkTheme);
                 break;
+        }
+    }
+
+    private void updateViewModelWithIntent(Intent intent) {
+        try {
+            String selectedAlarmStr = intent.getStringExtra("selectedAlarm");
+            switch (selectedAlarmStr) {
+                case "time":
+                    viewModel.setSelectedAlarm(R.id.radioButtonTimeBased);
+                case "event":
+                    viewModel.setSelectedAlarm(R.id.radioButtonEventBased);
+            }
+        } catch (Exception e) {
+            Log.d("Exception:", e.toString());
         }
     }
 

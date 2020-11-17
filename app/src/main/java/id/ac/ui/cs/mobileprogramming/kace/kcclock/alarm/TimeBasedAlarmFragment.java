@@ -3,6 +3,7 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,12 +21,26 @@ import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util.TimePickerUtil;
+
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MONDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.SATURDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.SUNDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.THURSDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TUESDAY;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.WEDNESDAY;
 
 public class TimeBasedAlarmFragment extends Fragment {
     @BindView(R.id.alarmTimePicker) TimePicker timePicker;
@@ -66,6 +81,8 @@ public class TimeBasedAlarmFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         alarmViewModel = ViewModelProviders.of(this).get(TimeBasedAlarmViewModel.class);
+        Intent intent = getActivity().getIntent();
+        updateViewModelWithIntent(intent);
         setUIData();
     }
 
@@ -73,6 +90,30 @@ public class TimeBasedAlarmFragment extends Fragment {
     public void onStop() {
         this.saveStateToViewModel();
         super.onStop();
+    }
+
+    private void updateViewModelWithIntent(Intent intent) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = cal.get(Calendar.MINUTE);
+        try {
+            alarmViewModel.setId(intent.getIntExtra("id", 0));
+            alarmViewModel.setHour(intent.getIntExtra(HOUR, currentHour));
+            alarmViewModel.setMinute(intent.getIntExtra(MINUTE, currentMinute));
+            alarmViewModel.setAlarmName(intent.getStringExtra(NAME));
+            alarmViewModel.setIsVibrate(intent.getBooleanExtra(VIBRATE, false));
+            alarmViewModel.setIsUseSound(intent.getBooleanExtra(USE_SOUND, false));
+            alarmViewModel.setIsRingSun(intent.getBooleanExtra(SUNDAY, false));
+            alarmViewModel.setIsRingMon(intent.getBooleanExtra(MONDAY, false));
+            alarmViewModel.setIsRingTue(intent.getBooleanExtra(TUESDAY, false));
+            alarmViewModel.setIsRingWed(intent.getBooleanExtra(WEDNESDAY, false));
+            alarmViewModel.setIsRingThu(intent.getBooleanExtra(THURSDAY, false));
+            alarmViewModel.setIsRingFri(intent.getBooleanExtra(FRIDAY, false));
+            alarmViewModel.setIsRingSat(intent.getBooleanExtra(SATURDAY, false));
+        } catch (Exception e) {
+            Log.d("Exception:", e.toString());
+        }
     }
 
     private void setUIData() {

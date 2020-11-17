@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,7 +65,8 @@ public class AlarmRingActivity extends AppCompatActivity {
         snooze.setOnClickListener(v -> {
             cal.add(Calendar.MINUTE, R.integer.default_snooze_mins);
 
-            TimeBasedAlarm alarm = new TimeBasedAlarm(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
+            int id = new Random().nextInt(Integer.MAX_VALUE);
+            TimeBasedAlarm alarm = new TimeBasedAlarm(id, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
                     isVibrate, useSound, false, false, false, false, false,
                     false, false, name);
 

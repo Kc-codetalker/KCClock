@@ -8,10 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.Random;
+
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
 public class TimeBasedAlarmViewModel extends AndroidViewModel {
+
+    private MutableLiveData<Integer> id = new MutableLiveData<>();
     private MutableLiveData<Integer> hour = new MutableLiveData<>();
     private MutableLiveData<Integer> minute = new MutableLiveData<>();
     private MutableLiveData<String> alarmName = new MutableLiveData<>();
@@ -26,6 +30,14 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isRingSat = new MutableLiveData<>();
 
     AppRepository repo;
+
+    public MutableLiveData<Integer> getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.setValue(id);
+    }
 
     public MutableLiveData<String> getAlarmDayDesc() {
         return alarmDayDesc;
@@ -140,7 +152,9 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
     }
 
     public TimeBasedAlarm createAlarm() {
-        TimeBasedAlarm alarm = new TimeBasedAlarm(hour.getValue(), minute.getValue(), true,
+        int id = (this.id.getValue() != 0) ? this.id.getValue() : new Random().nextInt(Integer.MAX_VALUE);
+
+        TimeBasedAlarm alarm = new TimeBasedAlarm(id, hour.getValue(), minute.getValue(), true,
                 isVibrate.getValue(), isUseSound.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
                 isRingWed.getValue(), isRingThu.getValue(), isRingFri.getValue(), isRingSat.getValue(),
                 alarmName.getValue());
@@ -149,7 +163,6 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
 
     public void scheduleAlarm(Context ctx, TimeBasedAlarm alarm) {
         repo.insert(alarm);
-        Log.d("Insert Alarm", "Harusnya sudah saved nih");
         alarm.scheduleAlarm(ctx);
     }
 }
