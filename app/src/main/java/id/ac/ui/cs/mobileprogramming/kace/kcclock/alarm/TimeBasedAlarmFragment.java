@@ -155,8 +155,7 @@ public class TimeBasedAlarmFragment extends Fragment {
     public void saveAlarm() {
         this.saveStateToViewModel();
         TimeBasedAlarm alarm = alarmViewModel.createAlarm();
-        alarm.logging();
-        alarm.scheduleAlarm(getContext());
+        alarmViewModel.scheduleAlarm(getContext(), alarm);
     }
 
 }
