@@ -1,11 +1,17 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
-public class TimeBasedAlarmViewModel extends ViewModel {
+public class TimeBasedAlarmViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> hour = new MutableLiveData<>();
     private MutableLiveData<Integer> minute = new MutableLiveData<>();
     private MutableLiveData<String> alarmName = new MutableLiveData<>();
@@ -18,6 +24,8 @@ public class TimeBasedAlarmViewModel extends ViewModel {
     private MutableLiveData<Boolean> isRingThu = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingFri = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingSat = new MutableLiveData<>();
+
+    AppRepository repo;
 
     public MutableLiveData<String> getAlarmDayDesc() {
         return alarmDayDesc;
@@ -125,11 +133,23 @@ public class TimeBasedAlarmViewModel extends ViewModel {
         this.isRingSat.setValue(isRingSat);
     }
 
+    public TimeBasedAlarmViewModel(@NonNull Application application) {
+        super(application);
+
+        repo = new AppRepository(application);
+    }
+
     public TimeBasedAlarm createAlarm() {
         TimeBasedAlarm alarm = new TimeBasedAlarm(hour.getValue(), minute.getValue(), true,
                 isVibrate.getValue(), isUseSound.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
                 isRingWed.getValue(), isRingThu.getValue(), isRingFri.getValue(), isRingSat.getValue(),
                 alarmName.getValue());
         return alarm;
+    }
+
+    public void scheduleAlarm(Context ctx, TimeBasedAlarm alarm) {
+        repo.insert(alarm);
+        Log.d("Insert Alarm", "Harusnya sudah saved nih");
+        alarm.scheduleAlarm(ctx);
     }
 }
