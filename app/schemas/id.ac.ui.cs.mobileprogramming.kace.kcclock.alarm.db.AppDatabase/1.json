@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a639a283755f5b1df536f2930b1bec4e",
+    "identityHash": "ee8ef4870af322ad4ddfd5f8ee5dfe82",
     "entities": [
       {
         "tableName": "time_based_alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `has_started` INTEGER NOT NULL, `is_recurring` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `on_sunday` INTEGER NOT NULL, `on_monday` INTEGER NOT NULL, `on_tuesday` INTEGER NOT NULL, `on_wednesday` INTEGER NOT NULL, `on_thursday` INTEGER NOT NULL, `on_friday` INTEGER NOT NULL, `on_saturday` INTEGER NOT NULL, `name` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL, `is_recurring` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `on_sunday` INTEGER NOT NULL, `on_monday` INTEGER NOT NULL, `on_tuesday` INTEGER NOT NULL, `on_wednesday` INTEGER NOT NULL, `on_thursday` INTEGER NOT NULL, `on_friday` INTEGER NOT NULL, `on_saturday` INTEGER NOT NULL, `name` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -27,8 +27,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "hasStarted",
-            "columnName": "has_started",
+            "fieldPath": "isEnabled",
+            "columnName": "is_enabled",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -112,7 +112,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a639a283755f5b1df536f2930b1bec4e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee8ef4870af322ad4ddfd5f8ee5dfe82')"
     ]
   }
 }

@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
@@ -42,8 +41,8 @@ public class TimeBasedAlarm {
 
     private int hour, minute;
 
-    @ColumnInfo(name = "has_started")
-    private boolean hasStarted;
+    @ColumnInfo(name = "is_enabled")
+    private boolean isEnabled;
 
     @ColumnInfo(name = "is_recurring")
     private boolean isRecurring;
@@ -91,8 +90,8 @@ public class TimeBasedAlarm {
         return minute;
     }
 
-    public boolean isHasStarted() {
-        return hasStarted;
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
     public boolean isRecurring() {
@@ -139,13 +138,13 @@ public class TimeBasedAlarm {
         return name;
     }
 
-    public TimeBasedAlarm(int id, int hour, int minute, boolean hasStarted, boolean isVibrate, boolean useSound,
+    public TimeBasedAlarm(int id, int hour, int minute, boolean isEnabled, boolean isVibrate, boolean useSound,
                           boolean onSunday, boolean onMonday, boolean onTuesday, boolean onWednesday,
                           boolean onThursday, boolean onFriday, boolean onSaturday, String name) {
         this.id = id;
         this.hour = hour;
         this.minute = minute;
-        this.hasStarted = hasStarted;
+        this.isEnabled = isEnabled;
         this.isRecurring = onSunday || onMonday || onTuesday || onWednesday || onThursday || onFriday || onSaturday;
         this.isVibrate = isVibrate;
         this.useSound = useSound;
@@ -214,7 +213,7 @@ public class TimeBasedAlarm {
             );
         }
 
-        this.hasStarted = true;
+        this.isEnabled = true;
     }
 
     public void disableAlarm(Context context) {
@@ -222,7 +221,7 @@ public class TimeBasedAlarm {
         Intent intent = new Intent(context, TimeBasedAlarmReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, id, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
-        this.hasStarted = false;
+        this.isEnabled = false;
 
         String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, id);
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();

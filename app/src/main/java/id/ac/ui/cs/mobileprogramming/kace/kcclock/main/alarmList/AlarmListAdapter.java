@@ -57,7 +57,7 @@ public class AlarmListAdapter extends
             String alarmText = String.format("%02d:%02d", alarm.getHour(), alarm.getMinute());
 
             alarmTime.setText(alarmText);
-            alarmEnableSwitch.setChecked(alarm.isHasStarted());
+            alarmEnableSwitch.setChecked(alarm.isEnabled());
             alarmRecurrence.setText(alarm.getRecurrenceStr(getAppContext()));
             alarmName.setText(alarm.getName());
 

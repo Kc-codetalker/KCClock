@@ -66,7 +66,7 @@ public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlar
 
     @Override
     public void onToggle(TimeBasedAlarm alarm) {
-        if (alarm.isHasStarted()) {
+        if (alarm.isEnabled()) {
             alarm.disableAlarm(getContext());
             alarmListViewModel.updateAlarm(alarm);
         } else {
