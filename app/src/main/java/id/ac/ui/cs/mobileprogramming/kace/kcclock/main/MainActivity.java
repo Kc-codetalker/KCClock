@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, AlarmDetailActivity.class);
-            startActivity(intent);
+            // TO-DO: Add setting activity
             return true;
         }
 
