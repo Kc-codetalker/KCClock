@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRescheduleService;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService;
 
 public class TimeBasedAlarmReceiver extends BroadcastReceiver {
@@ -33,9 +34,9 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             // Reboot all alarm
-//            String toastText = String.format("Alarm Reboot");
-//            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-//            startRescheduleAlarmsService(context);
+            String toastText = String.format("Alarm Reboot");
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+            startAlarmRescheduleService(context);
         }
         else {
             // Start ringing for that alarm
@@ -101,5 +102,16 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
         } else {
             context.startService(intentService);
         }
+    }
+
+    private void startAlarmRescheduleService(Context context) {
+        Intent intentService = new Intent(context, AlarmRescheduleService.class);
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                context.startService(intentService);
+            }
+        };
+        thread.start();
     }
 }

@@ -14,14 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".alarm.service.AlarmRescheduleService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".alarm.AlarmRingActivity"
-            android:label="@string/title_activity_alarm_ring" />
-<!--            android:launchMode="singleTop"-->
-<!--            android:noHistory="true"-->
-<!--            android:taskAffinity=""-->
-<!--            android:excludeFromRecents="true"-->
-
+            android:label="@string/title_activity_alarm_ring" /> <!-- android:launchMode="singleTop" -->
+        <!-- android:noHistory="true" -->
+        <!-- android:taskAffinity="" -->
+        <!-- android:excludeFromRecents="true" -->
         <service
             android:name=".alarm.service.AlarmRingService"
             android:enabled="true"
