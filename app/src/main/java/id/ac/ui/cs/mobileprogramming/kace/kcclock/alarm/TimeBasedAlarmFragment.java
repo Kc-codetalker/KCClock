@@ -39,6 +39,7 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util.TimePickerUtil;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.Audio;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.AudioManager;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
@@ -80,7 +81,7 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         Log.d("Audio retrieve", "Want to retrieve audios.");
-        audioList = getAllAudio();
+        audioList = AudioManager.getAllAudio();
         Log.d("Audio retrieved", Integer.toString(audioList.size()));
         for (Audio a : audioList) {
             Log.d("Audio URI", a.getUri().toString());
@@ -250,66 +251,6 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
         this.saveStateToViewModel();
         TimeBasedAlarm alarm = alarmViewModel.createAlarm();
         alarmViewModel.scheduleAlarm(getContext(), alarm);
-    }
-
-    private List<Audio> getAllAudio() {
-
-        List<Audio> audioList = new ArrayList<Audio>();
-
-        String[] projection = new String[] {
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.SIZE
-        };
-        String selectionClause = MediaStore.Audio.Media.DURATION +
-                " >= ?";
-        String[] selectionArgs = new String[] {
-                String.valueOf(TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS))
-        };
-        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";
-
-        Thread t = new Thread(() -> {
-            try (Cursor cursor = getContext().getContentResolver().query(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    projection,
-                    selectionClause,
-                    selectionArgs,
-                    sortOrder
-            )) {
-                // Cache column indices.
-                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-                int nameColumn =
-                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
-                int durationColumn =
-                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
-                int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
-
-                while (cursor.moveToNext()) {
-                    // Get values of columns for a given video.
-                    long id = cursor.getLong(idColumn);
-                    String name = cursor.getString(nameColumn);
-                    int duration = cursor.getInt(durationColumn);
-                    int size = cursor.getInt(sizeColumn);
-
-                    Uri contentUri = ContentUris.withAppendedId(
-                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-
-                    // Stores column values and the contentUri in a local object
-                    // that represents the media file.
-                    audioList.add(new Audio(contentUri, name, duration, size));
-                }
-            }
-        });
-        try {
-            t.start();
-            t.join();
-        } catch (Exception e) {
-            Log.d("MediaStore Query", e.toString());
-            e.printStackTrace();
-        }
-
-        return audioList;
     }
 
     private List<String> audioListToNameList() {
