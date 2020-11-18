@@ -150,6 +150,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 fragment.saveAlarm();
             } catch (NullPointerException e) {
                 Log.d("[Exception] saveAlarm:", e.toString());
+                e.printStackTrace();
             }
         } else {
             Log.d("Event based selected!", "Not implemented yet!!");

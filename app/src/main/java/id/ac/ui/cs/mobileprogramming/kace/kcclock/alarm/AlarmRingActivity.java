@@ -22,6 +22,7 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
@@ -40,6 +41,7 @@ public class AlarmRingActivity extends AppCompatActivity {
     private int minute;
     private boolean isVibrate;
     private boolean useSound;
+    private String audioUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +65,14 @@ public class AlarmRingActivity extends AppCompatActivity {
         });
 
         snooze.setOnClickListener(v -> {
+            cal.set(Calendar.HOUR_OF_DAY, hour);
+            cal.set(Calendar.MINUTE, minute);
             cal.add(Calendar.MINUTE, R.integer.default_snooze_mins);
 
             int id = new Random().nextInt(Integer.MAX_VALUE);
             TimeBasedAlarm alarm = new TimeBasedAlarm(id, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
                     isVibrate, useSound, false, false, false, false, false,
-                    false, false, name);
+                    false, false, name, audioUri);
 
             Context ctx = getApplicationContext();
             alarm.scheduleAlarm(ctx);
@@ -110,6 +114,7 @@ public class AlarmRingActivity extends AppCompatActivity {
         minute = intent.getIntExtra(MINUTE, cal.get(Calendar.MINUTE));
         isVibrate = intent.getBooleanExtra(VIBRATE, false);
         useSound = intent.getBooleanExtra(USE_SOUND, false);
+        audioUri = intent.getStringExtra(AUDIO_URI);
         Log.d("Name activity:", name);
         Log.d("Hour activity:", Integer.toString(hour));
         Log.d("Minute activity:", Integer.toString(minute));

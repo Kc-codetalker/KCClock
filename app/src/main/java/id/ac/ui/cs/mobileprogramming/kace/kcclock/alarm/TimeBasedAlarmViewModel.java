@@ -2,7 +2,6 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,6 +20,7 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
     private MutableLiveData<String> alarmName = new MutableLiveData<>();
     private MutableLiveData<Boolean> isVibrate = new MutableLiveData<>();
     private MutableLiveData<Boolean> isUseSound = new MutableLiveData<>();
+    private MutableLiveData<String> audioUri = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingSun = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingMon = new MutableLiveData<>();
     private MutableLiveData<Boolean> isRingTue = new MutableLiveData<>();
@@ -89,6 +89,14 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
         this.isUseSound.setValue(isUseSound);
     }
 
+    public MutableLiveData<String> getAudioUri() {
+        return audioUri;
+    }
+
+    public void setAudioUri(String audioUri) {
+        this.audioUri.setValue(audioUri);
+    }
+
     public MutableLiveData<Boolean> getIsRingSun() {
         return isRingSun;
     }
@@ -152,12 +160,12 @@ public class TimeBasedAlarmViewModel extends AndroidViewModel {
     }
 
     public TimeBasedAlarm createAlarm() {
-        int id = (this.id.getValue() != 0) ? this.id.getValue() : new Random().nextInt(Integer.MAX_VALUE);
+        int id = (this.id.getValue() != null) ? this.id.getValue() : new Random().nextInt(Integer.MAX_VALUE);
 
         TimeBasedAlarm alarm = new TimeBasedAlarm(id, hour.getValue(), minute.getValue(), true,
                 isVibrate.getValue(), isUseSound.getValue(), isRingSun.getValue(), isRingMon.getValue(), isRingTue.getValue(),
                 isRingWed.getValue(), isRingThu.getValue(), isRingFri.getValue(), isRingSat.getValue(),
-                alarmName.getValue());
+                alarmName.getValue(), audioUri.getValue());
         return alarm;
     }
 

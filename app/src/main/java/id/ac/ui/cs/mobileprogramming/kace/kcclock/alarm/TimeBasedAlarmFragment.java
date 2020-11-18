@@ -3,32 +3,44 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util.TimePickerUtil;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.Audio;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
@@ -42,7 +54,7 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.WEDNESDAY;
 
-public class TimeBasedAlarmFragment extends Fragment {
+public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     @BindView(R.id.alarmTimePicker) TimePicker timePicker;
     @BindView(R.id.alarmNameField) EditText nameField;
     @BindView(R.id.checkBoxVibrate) CheckBox vibrateCheckBox;
@@ -55,11 +67,25 @@ public class TimeBasedAlarmFragment extends Fragment {
     @BindView(R.id.btnDaySelectFri) ToggleButton toggleFri;
     @BindView(R.id.btnDaySelectSat) ToggleButton toggleSat;
     @BindView(R.id.alarmDayDesc) TextView alarmDesc;
+    @BindView(R.id.audioSpinner) Spinner audioSpinner;
 
     private TimeBasedAlarmViewModel alarmViewModel;
+    private List<Audio> audioList;
 
     public static TimeBasedAlarmFragment newInstance() {
         return new TimeBasedAlarmFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
+        Log.d("Audio retrieve", "Want to retrieve audios.");
+        audioList = getAllAudio();
+        Log.d("Audio retrieved", Integer.toString(audioList.size()));
+        for (Audio a : audioList) {
+            Log.d("Audio URI", a.getUri().toString());
+            Log.d("Audio Name", a.getName());
+        }
     }
 
     @Override
@@ -74,6 +100,10 @@ public class TimeBasedAlarmFragment extends Fragment {
         toggleThu.setOnClickListener(v -> onDayToggle());
         toggleFri.setOnClickListener(v -> onDayToggle());
         toggleSat.setOnClickListener(v -> onDayToggle());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, audioListToNameList());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        audioSpinner.setAdapter(adapter);
         return view;
     }
 
@@ -92,7 +122,21 @@ public class TimeBasedAlarmFragment extends Fragment {
         super.onStop();
     }
 
+    // Should implement onItemSelected and onNothingSelected
+    @Override
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+        Audio selectedAudio = audioList.get(position);
+        Toast.makeText(getContext(), selectedAudio.getName() , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+
     private void updateViewModelWithIntent(Intent intent) {
+        if( intent.getExtras() == null) return;
+
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
         int currentHour = cal.get(Calendar.HOUR_OF_DAY);
@@ -111,6 +155,7 @@ public class TimeBasedAlarmFragment extends Fragment {
             alarmViewModel.setIsRingThu(intent.getBooleanExtra(THURSDAY, false));
             alarmViewModel.setIsRingFri(intent.getBooleanExtra(FRIDAY, false));
             alarmViewModel.setIsRingSat(intent.getBooleanExtra(SATURDAY, false));
+            alarmViewModel.setAudioUri(intent.getStringExtra(AUDIO_URI));
         } catch (Exception e) {
             Log.d("Exception:", e.toString());
         }
@@ -133,8 +178,13 @@ public class TimeBasedAlarmFragment extends Fragment {
             alarmViewModel.getIsRingFri().observe(this, is -> toggleFri.setChecked(is));
             alarmViewModel.getIsRingSat().observe(this, is -> toggleSat.setChecked(is));
             alarmViewModel.getAlarmDayDesc().observe(this, desc -> alarmDesc.setText(desc));
+            alarmViewModel.getAudioUri().observe(this, uri -> {
+                int selectedAudio = findAudioPositionByUri(uri);
+                audioSpinner.setSelection(selectedAudio);
+            });
         } catch (NullPointerException e) {
             Log.d("TimeBasedAlarmViewModel", e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -191,6 +241,9 @@ public class TimeBasedAlarmFragment extends Fragment {
         alarmViewModel.setIsRingThu(toggleThu.isChecked());
         alarmViewModel.setIsRingFri(toggleFri.isChecked());
         alarmViewModel.setIsRingSat(toggleSat.isChecked());
+        int pos = audioSpinner.getSelectedItemPosition();
+        Uri audioUri = audioList.get(pos).getUri();
+        alarmViewModel.setAudioUri(audioUri.toString());
     }
 
     public void saveAlarm() {
@@ -199,4 +252,81 @@ public class TimeBasedAlarmFragment extends Fragment {
         alarmViewModel.scheduleAlarm(getContext(), alarm);
     }
 
+    private List<Audio> getAllAudio() {
+
+        List<Audio> audioList = new ArrayList<Audio>();
+
+        String[] projection = new String[] {
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.SIZE
+        };
+        String selectionClause = MediaStore.Audio.Media.DURATION +
+                " >= ?";
+        String[] selectionArgs = new String[] {
+                String.valueOf(TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS))
+        };
+        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";
+
+        Thread t = new Thread(() -> {
+            try (Cursor cursor = getContext().getContentResolver().query(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    projection,
+                    selectionClause,
+                    selectionArgs,
+                    sortOrder
+            )) {
+                // Cache column indices.
+                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+                int nameColumn =
+                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
+                int durationColumn =
+                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
+                int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
+
+                while (cursor.moveToNext()) {
+                    // Get values of columns for a given video.
+                    long id = cursor.getLong(idColumn);
+                    String name = cursor.getString(nameColumn);
+                    int duration = cursor.getInt(durationColumn);
+                    int size = cursor.getInt(sizeColumn);
+
+                    Uri contentUri = ContentUris.withAppendedId(
+                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+
+                    // Stores column values and the contentUri in a local object
+                    // that represents the media file.
+                    audioList.add(new Audio(contentUri, name, duration, size));
+                }
+            }
+        });
+        try {
+            t.start();
+            t.join();
+        } catch (Exception e) {
+            Log.d("MediaStore Query", e.toString());
+            e.printStackTrace();
+        }
+
+        return audioList;
+    }
+
+    private List<String> audioListToNameList() {
+        List<String> lst = new ArrayList<>();
+        for (Audio a : this.audioList) {
+            lst.add(a.getName());
+        }
+        return lst;
+    }
+
+    private int findAudioPositionByUri(String uri) {
+        for (int i = 0 ; i < audioList.size(); i++) {
+            Audio a = audioList.get(i);
+            if (a.getUri().toString().equals(uri)) {
+                return i;
+            }
+        }
+        return 0;
+    }
 }

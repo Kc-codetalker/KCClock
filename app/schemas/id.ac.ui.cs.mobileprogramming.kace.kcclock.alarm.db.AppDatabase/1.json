@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ee8ef4870af322ad4ddfd5f8ee5dfe82",
+    "identityHash": "426916e34235f6f3e4ee5a9ff947135b",
     "entities": [
       {
         "tableName": "time_based_alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL, `is_recurring` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `on_sunday` INTEGER NOT NULL, `on_monday` INTEGER NOT NULL, `on_tuesday` INTEGER NOT NULL, `on_wednesday` INTEGER NOT NULL, `on_thursday` INTEGER NOT NULL, `on_friday` INTEGER NOT NULL, `on_saturday` INTEGER NOT NULL, `name` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL, `is_recurring` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `on_sunday` INTEGER NOT NULL, `on_monday` INTEGER NOT NULL, `on_tuesday` INTEGER NOT NULL, `on_wednesday` INTEGER NOT NULL, `on_thursday` INTEGER NOT NULL, `on_friday` INTEGER NOT NULL, `on_saturday` INTEGER NOT NULL, `name` TEXT, `audio_uri` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -97,6 +97,12 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "audioUri",
+            "columnName": "audio_uri",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -112,7 +118,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee8ef4870af322ad4ddfd5f8ee5dfe82')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '426916e34235f6f3e4ee5a9ff947135b')"
     ]
   }
 }

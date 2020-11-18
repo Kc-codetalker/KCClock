@@ -20,6 +20,7 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
@@ -78,6 +79,7 @@ public class AlarmListAdapter extends
                 intent.putExtra(THURSDAY, alarm.isOnThursday());
                 intent.putExtra(FRIDAY, alarm.isOnFriday());
                 intent.putExtra(SATURDAY, alarm.isOnSaturday());
+                intent.putExtra(AUDIO_URI, alarm.getAudioUri());
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 getAppContext().startActivity(intent);
             });

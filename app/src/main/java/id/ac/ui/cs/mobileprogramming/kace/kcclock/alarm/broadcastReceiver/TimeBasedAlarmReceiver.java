@@ -26,6 +26,7 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
     public static final String MINUTE = "ALARM MINUTE";
     public static final String VIBRATE = "IS VIBRATE";
     public static final String USE_SOUND = "IS USE SOUND";
+    public static final String AUDIO_URI = "AUDIO URI";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -94,6 +95,7 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
         intentService.putExtra(MINUTE, intent.getIntExtra(MINUTE, 0));
         intentService.putExtra(VIBRATE, intent.getBooleanExtra(VIBRATE, false));
         intentService.putExtra(USE_SOUND, intent.getBooleanExtra(USE_SOUND, false));
+        intentService.putExtra(AUDIO_URI, intent.getStringExtra(AUDIO_URI));
         Log.d("Name start service:", intent.getStringExtra(NAME));
         Log.d("Hour start service:", Integer.toString(intent.getIntExtra(HOUR, 0)));
         Log.d("Minute start service:", Integer.toString(intent.getIntExtra(MINUTE, 0)));

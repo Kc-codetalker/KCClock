@@ -20,6 +20,7 @@ import java.util.Date;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
@@ -69,6 +70,9 @@ public class TimeBasedAlarm {
     private boolean onSaturday;
 
     private String name;
+
+    @ColumnInfo(name = "audio_uri")
+    private String audioUri;
 
     /**
      * This is required for Entity to be compiled
@@ -138,9 +142,13 @@ public class TimeBasedAlarm {
         return name;
     }
 
+    public String getAudioUri() {
+        return audioUri;
+    }
+
     public TimeBasedAlarm(int id, int hour, int minute, boolean isEnabled, boolean isVibrate, boolean useSound,
                           boolean onSunday, boolean onMonday, boolean onTuesday, boolean onWednesday,
-                          boolean onThursday, boolean onFriday, boolean onSaturday, String name) {
+                          boolean onThursday, boolean onFriday, boolean onSaturday, String name, String audioUri) {
         this.id = id;
         this.hour = hour;
         this.minute = minute;
@@ -149,6 +157,7 @@ public class TimeBasedAlarm {
         this.isVibrate = isVibrate;
         this.useSound = useSound;
         this.name = name;
+        this.audioUri = audioUri;
 
         this.onSunday = onSunday;
         this.onMonday = onMonday;
@@ -179,6 +188,7 @@ public class TimeBasedAlarm {
         intent.putExtra(MINUTE, minute);
         intent.putExtra(VIBRATE, isVibrate);
         intent.putExtra(USE_SOUND, useSound);
+        intent.putExtra(AUDIO_URI, audioUri);
         Log.d("Name:", name);
         Log.d("Hour:", Integer.toString(hour));
         Log.d("Minute:", Integer.toString(minute));

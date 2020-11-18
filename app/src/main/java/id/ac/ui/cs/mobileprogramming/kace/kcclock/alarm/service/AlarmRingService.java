@@ -14,9 +14,12 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import android.net.Uri;
+
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmRingActivity;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
@@ -36,7 +39,6 @@ public class AlarmRingService extends Service {
         super.onCreate();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.pokemon_x_obtain_item);
-        mediaPlayer.setLooping(true);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -49,6 +51,7 @@ public class AlarmRingService extends Service {
         int minute = intent.getIntExtra(MINUTE, 0);
         boolean isVibrate = intent.getBooleanExtra(VIBRATE, false);
         boolean useSound = intent.getBooleanExtra(USE_SOUND, false);
+        String audioUri = intent.getStringExtra(AUDIO_URI);
 
         Intent notificationIntent = new Intent(this, AlarmRingActivity.class);
         notificationIntent.putExtra(NAME, name);
@@ -56,12 +59,13 @@ public class AlarmRingService extends Service {
         notificationIntent.putExtra(MINUTE, minute);
         notificationIntent.putExtra(VIBRATE, isVibrate);
         notificationIntent.putExtra(USE_SOUND, useSound);
+        notificationIntent.putExtra(AUDIO_URI, audioUri);
         Log.d("Name notif:", name);
         Log.d("Hour notif:", Integer.toString(hour));
         Log.d("Minute notif:", Integer.toString(minute));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        this.startRinging(isVibrate, useSound);
+        this.startRinging(isVibrate, useSound, audioUri);
 
         String alarmTitle = String.format("%s Alarm", name);
 
@@ -92,8 +96,21 @@ public class AlarmRingService extends Service {
         vibrator.cancel();
     }
 
-    private void startRinging(boolean isVibrate, boolean useSound) {
-        if (useSound) mediaPlayer.start();
+    private void startRinging(boolean isVibrate, boolean useSound, String audioUri) {
+        if (useSound) {
+            try {
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(this, Uri.parse(audioUri));
+                mediaPlayer.prepare();
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mediaPlayer = MediaPlayer.create(this, R.raw.pokemon_x_obtain_item);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.start();
+            }
+        }
 
         if (isVibrate && vibrator.hasVibrator()) {
             Log.d("Ada vibrator", "Seharusnya getar dong");
