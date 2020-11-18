@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
 public class AudioManager {
+
     public static List<Audio> getAllAudio() {
 
         List<Audio> audioList = new ArrayList<Audio>();
@@ -23,46 +24,17 @@ public class AudioManager {
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.SIZE
         };
-        String selectionClause = MediaStore.Audio.Media.DURATION +
-                " >= ?";
+        String selectionClause = MediaStore.Audio.Media.DURATION + " >= ?";
         String[] selectionArgs = new String[] {
                 String.valueOf(TimeUnit.MILLISECONDS.convert(1, TimeUnit.SECONDS))
         };
         String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";
 
-        Thread t = new Thread(() -> {
-            try (Cursor cursor = getAppContext().getContentResolver().query(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    projection,
-                    selectionClause,
-                    selectionArgs,
-                    sortOrder
-            )) {
-                // Cache column indices.
-                int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-                int nameColumn =
-                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
-                int durationColumn =
-                        cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
-                int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
-
-                while (cursor.moveToNext()) {
-                    // Get values of columns for a given video.
-                    long id = cursor.getLong(idColumn);
-                    String name = cursor.getString(nameColumn);
-                    int duration = cursor.getInt(durationColumn);
-                    int size = cursor.getInt(sizeColumn);
-
-                    Uri contentUri = ContentUris.withAppendedId(
-                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-
-                    // Stores column values and the contentUri in a local object
-                    // that represents the media file.
-                    audioList.add(new Audio(contentUri, name, duration, size));
-                }
-            }
-        });
         try {
+            Thread t = new Thread(() -> {
+                queryAllInternalAudioToList(audioList, projection, selectionClause, selectionArgs, sortOrder);
+                queryAllExternalAudioToList(audioList, projection, selectionClause, selectionArgs, sortOrder);
+            });
             t.start();
             t.join();
         } catch (Exception e) {
@@ -71,5 +43,81 @@ public class AudioManager {
         }
 
         return audioList;
+    }
+
+    /**
+     * Code adapted from https://developer.android.com/training/data-storage/shared/media
+     */
+    private static void queryAllExternalAudioToList(List<Audio> audioList, String[] projection,
+                                                    String selectionClause, String[] selectionArgs,
+                                                    String sortOrder) {
+        try (Cursor cursor = getAppContext().getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selectionClause,
+                selectionArgs,
+                sortOrder
+        )) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
+            int durationColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
+
+            while (cursor.moveToNext()) {
+                // Get values of columns for a given video.
+                long id = cursor.getLong(idColumn);
+                String name = cursor.getString(nameColumn);
+                int duration = cursor.getInt(durationColumn);
+                int size = cursor.getInt(sizeColumn);
+
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+
+                // Stores column values and the contentUri in a local object
+                // that represents the media file.
+                audioList.add(new Audio(contentUri, name, duration, size));
+            }
+        }
+    }
+
+    /**
+     * Code adapted from https://developer.android.com/training/data-storage/shared/media
+     */
+    private static void queryAllInternalAudioToList(List<Audio> audioList, String[] projection,
+                                                    String selectionClause, String[] selectionArgs,
+                                                    String sortOrder) {
+        try (Cursor cursor = getAppContext().getContentResolver().query(
+                MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
+                projection,
+                selectionClause,
+                selectionArgs,
+                sortOrder
+        )) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
+            int durationColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
+
+            while (cursor.moveToNext()) {
+                // Get values of columns for a given video.
+                long id = cursor.getLong(idColumn);
+                String name = cursor.getString(nameColumn);
+                int duration = cursor.getInt(durationColumn);
+                int size = cursor.getInt(sizeColumn);
+
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Audio.Media.INTERNAL_CONTENT_URI, id);
+
+                // Stores column values and the contentUri in a local object
+                // that represents the media file.
+                audioList.add(new Audio(contentUri, name, duration, size));
+            }
+        }
     }
 }
