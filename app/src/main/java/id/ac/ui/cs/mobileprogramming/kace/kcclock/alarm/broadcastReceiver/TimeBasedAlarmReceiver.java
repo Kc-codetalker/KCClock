@@ -34,6 +34,7 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             // Reboot all alarm
+            Log.d("ACTION_BOOT_COMPLETED", "Mau reschedule alarms.");
             String toastText = String.format("Alarm Reboot");
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             startAlarmRescheduleService(context);
@@ -105,13 +106,20 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
     }
 
     private void startAlarmRescheduleService(Context context) {
-        Intent intentService = new Intent(context, AlarmRescheduleService.class);
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                context.startService(intentService);
-            }
-        };
-        thread.start();
+//        Intent intentService = new Intent(context, AlarmRescheduleService.class);
+        Log.d("ACTION_BOOT_COMPLETED", "Call service reschedule alarms.");
+        AlarmRescheduleService.enqueueWork(context, new Intent());
+//        Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                context.startService(intentService);
+//            }
+//        };
+//        thread.start();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            context.startForegroundService(intentService);
+//        } else {
+//            context.startService(intentService);
+//        }
     }
 }

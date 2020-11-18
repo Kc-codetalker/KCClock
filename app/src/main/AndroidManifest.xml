@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".alarm.service.AlarmRescheduleService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:enabled="true"
             android:exported="true"></service>
 
@@ -33,7 +34,11 @@
         <receiver
             android:name=".alarm.broadcastReceiver.TimeBasedAlarmReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".alarm.AlarmDetailActivity" />
         <activity
