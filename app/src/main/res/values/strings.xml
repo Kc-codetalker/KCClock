@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">KCClock</string>
-    <string name="appbar_clock">KCClock</string>
+    <string name="app_name" translatable="false">KCClock</string>
+    <string name="appbar_clock" translatable="false">KCClock</string>
     <string name="appbar_alarm_list">KCClock - Alarms</string>
     <string name="appbar_alarm_detail">Alarm Detail</string>
     <string name="appbar_alarm_ring">KCClock Alarm</string>
     <string name="title_clock">Clock</string>
-    <string name="title_alarm">Alarm</string>
+    <string name="title_alarm" translatable="false">Alarm</string>
     <string name="radio_time_based">Time-based alarm</string>
     <string name="radio_event_based">Event-based alarm</string>
     <string name="action_settings">Settings</string>
@@ -32,7 +32,7 @@
     <string name="every">Every</string>
     <string name="every_day">Every day</string>
     <string name="next_time">Next time</string>
-    <string name="title_activity_alarm_ring">AlarmRingActivity</string>
+    <string name="title_activity_alarm_ring" translatable="false">AlarmRingActivity</string>
     <string name="snooze">Snooze</string>
     <string name="dismiss">Dismiss</string>
 </resources>

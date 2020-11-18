@@ -178,6 +178,7 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
             alarmViewModel.getIsRingThu().observe(this, is -> toggleThu.setChecked(is));
             alarmViewModel.getIsRingFri().observe(this, is -> toggleFri.setChecked(is));
             alarmViewModel.getIsRingSat().observe(this, is -> toggleSat.setChecked(is));
+            setAlarmDescText();
             alarmViewModel.getAlarmDayDesc().observe(this, desc -> alarmDesc.setText(desc));
             alarmViewModel.getAudioUri().observe(this, uri -> {
                 int selectedAudio = findAudioPositionByUri(uri);
