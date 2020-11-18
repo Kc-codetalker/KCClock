@@ -22,6 +22,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
             android:text="00:00"
+            android:textColor="?attr/activeTextColor"
             android:textSize="32sp" />
 
         <TextView
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/alarm_name_hint" />
+            android:text="@string/alarm_name_hint"
+            android:textColor="?attr/activeTextColor" />
 
     </LinearLayout>
 
@@ -41,6 +43,7 @@
         android:layout_weight="1"
         android:paddingHorizontal="14sp"
         android:text="@string/every_day"
+        android:textColor="?attr/activeTextColor"
         android:textAlignment="textEnd" />
 
     <Switch

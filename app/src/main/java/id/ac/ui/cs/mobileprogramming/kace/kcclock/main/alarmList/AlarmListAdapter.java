@@ -62,7 +62,9 @@ public class AlarmListAdapter extends
             alarmRecurrence.setText(alarm.getRecurrenceStr(getAppContext()));
             alarmName.setText(alarm.getName());
 
-            alarmEnableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> listener.onToggle(alarm));
+            alarmEnableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                listener.onToggle(alarm, alarmTime, alarmName, alarmRecurrence);
+            });
             viewHolderContainer.setOnClickListener((view) -> {
                 Intent intent = new Intent(getAppContext(), AlarmDetailActivity.class);
                 intent.putExtra("selectedAlarm", "Time");
