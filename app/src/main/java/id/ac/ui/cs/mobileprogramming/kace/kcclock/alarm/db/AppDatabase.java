@@ -1,6 +1,7 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db;
 
 import android.content.Context;
+import android.util.EventLog;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -9,9 +10,10 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {TimeBasedAlarm.class}, version = 1)
+@Database(entities = {TimeBasedAlarm.class, EventBasedAlarm.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TimeBasedAlarmDao timeBasedAlarmDao();
+    public abstract EventBasedAlarmDao eventBasedAlarmDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
