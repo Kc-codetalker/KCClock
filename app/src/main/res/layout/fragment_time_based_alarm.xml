@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutTimeBased"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".alarm.TimeBasedAlarmFragment">
+
+    <TimePicker
+        android:id="@+id/alarmTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/alarmDayDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8sp"
+        android:text="@string/next_time"
+        android:textColor="?attr/inactiveTextColor"
+        app:layout_constraintBottom_toTopOf="@+id/dayTogglesLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmTimePicker" />
+
+    <LinearLayout
+        android:id="@+id/dayTogglesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="fill"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/alarmNameField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmDayDesc">
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectSun"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_sunday_text"
+            android:textOff="@string/initial_sunday"
+            android:textOn="@string/initial_sunday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectMon"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_monday"
+            android:textOn="@string/initial_monday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectTue"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_tuesday"
+            android:textOn="@string/initial_tuesday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectWed"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_wednesday"
+            android:textOn="@string/initial_wednesday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectThu"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_thursday"
+            android:textOn="@string/initial_thursday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectFri"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_friday"
+            android:textOn="@string/initial_friday" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"></Space>
+
+        <ToggleButton
+            android:id="@+id/btnDaySelectSat"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:background="@drawable/btn_day_select_round"
+            android:textColor="@color/toggle_day_text"
+            android:textOff="@string/initial_saturday"
+            android:textOn="@string/initial_saturday" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/alarmNameField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8sp"
+        android:ems="10"
+        android:hint="@string/alarm_name_hint"
+        android:inputType="textPersonName"
+        android:textColor="?attr/activeTextColor"
+        android:textColorHint="?attr/inactiveTextColor"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxVibrate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayTogglesLayout"
+        android:importantForAutofill="no" />
+
+    <CheckBox
+        android:id="@+id/checkBoxVibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:layout_weight="1"
+        android:text="@string/vibrate"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxSound"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarmNameField" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:text="@string/sound"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/audioSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxVibrate" />
+
+    <Spinner
+        android:id="@+id/audioSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSound" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

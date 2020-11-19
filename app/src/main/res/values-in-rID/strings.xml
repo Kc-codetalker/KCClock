@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_cancel">Batal</string>
+    <string name="action_save">Simpan</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="alarm_name_hint">Nama alarm</string>
+    <string name="appbar_alarm_detail">Detail Alarm</string>
+    <string name="appbar_alarm_list">KCClock - Alarm</string>
+    <string name="appbar_alarm_ring">KCClock Alarm</string>
+    <string name="dismiss">Matikan</string>
+    <string name="every">Setiap</string>
+    <string name="every_day">Setiap hari</string>
+    <string name="initial_friday">J</string>
+    <string name="initial_monday">S</string>
+    <string name="initial_saturday">S</string>
+    <string name="initial_sunday">M</string>
+    <string name="initial_thursday">K</string>
+    <string name="initial_tuesday">S</string>
+    <string name="initial_wednesday">R</string>
+    <string name="next_time">Saat selanjutnya</string>
+    <string name="radio_event_based">Alarm event-based</string>
+    <string name="radio_time_based">"Alarm waktu "</string>
+    <string name="short_friday">Jum</string>
+    <string name="short_monday">Sen</string>
+    <string name="short_saturday">Sab</string>
+    <string name="short_sunday">Min</string>
+    <string name="short_thursday">Kam</string>
+    <string name="short_tuesday">Sel</string>
+    <string name="short_wednesday">Rab</string>
+    <string name="snooze">Tunda</string>
+    <string name="sound">Suara</string>
+    <string name="title_clock">Jam</string>
+    <string name="vibrate">Getar</string>
+</resources>

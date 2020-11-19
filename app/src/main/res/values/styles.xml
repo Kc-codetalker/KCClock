@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item> <!-- Warna app bar -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item> <!-- Warna status/notif bar -->
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonTextAllCaps">false</item>
     </style>
 
     <style name="LightTheme" parent="AppTheme">
