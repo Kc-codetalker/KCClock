@@ -24,6 +24,7 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.FRIDAY;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
@@ -95,10 +96,10 @@ public class AlarmListAdapter extends
             } else {
                 EventBasedAlarm alarm = (EventBasedAlarm) a;
 
-                alarmTime.setText(alarm.getEvent());
+                alarmTime.setText(EventBasedAlarm.EVENT_MAP.get(alarm.getEvent()));
                 alarmEnableSwitch.setChecked(alarm.isEnabled());
-                alarmRecurrence.setText("");
-                alarmName.setText("");
+                alarmRecurrence.setVisibility(View.GONE);
+                alarmName.setVisibility(View.GONE);
 
                 alarmEnableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     listener.onToggle(alarm, alarmTime, alarmName, alarmRecurrence);
@@ -106,7 +107,7 @@ public class AlarmListAdapter extends
                 viewHolderContainer.setOnClickListener((view) -> {
                     Intent intent = new Intent(getAppContext(), AlarmDetailActivity.class);
                     intent.putExtra(ALARM_TYPE, EVENT_BASED_ALARM);
-                    intent.putExtra(NAME, alarm.getEvent());
+                    intent.putExtra(EVENT, alarm.getEvent());
                     intent.putExtra(VIBRATE, alarm.isVibrate());
                     intent.putExtra(USE_SOUND, alarm.isUseSound());
                     intent.putExtra(AUDIO_URI, alarm.getAudioUri());
@@ -180,7 +181,8 @@ public class AlarmListAdapter extends
             for (int i = 0; i < this.alarms.size(); i++) {
                 Alarm current = this.alarms.get(i);
                 if (current instanceof EventBasedAlarm) {
-                    if (newAlarm.getEvent() == ((EventBasedAlarm) current).getEvent()) {
+                    String currentEvent = ((EventBasedAlarm) current).getEvent();
+                    if (newAlarm.getEvent().equals(currentEvent)) {
                         this.alarms.set(i, newAlarm);
                         hasModifyOldAlarm = true;
                         i = this.alarms.size();
