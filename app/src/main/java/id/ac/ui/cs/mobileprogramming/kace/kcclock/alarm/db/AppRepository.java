@@ -3,7 +3,6 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -46,11 +45,8 @@ public class AppRepository {
         });
     }
 
-    public LiveData<Alarm> getEventBasedAlarmByEvent(String event) {
-        EventBasedAlarm alarm =  eventBasedAlarmDao.getAlarmByEvent(event).getValue();
-        MutableLiveData<Alarm> alarmLiveData = new MutableLiveData<>();
-        alarmLiveData.setValue(alarm);
-        return alarmLiveData;
+    public LiveData<EventBasedAlarm> getEventBasedAlarmByEvent(String event) {
+        return eventBasedAlarmDao.getAlarmByEvent(event);
     }
 
     public LiveData<List<TimeBasedAlarm>> getTimeBasedAlarmsLiveData() {
