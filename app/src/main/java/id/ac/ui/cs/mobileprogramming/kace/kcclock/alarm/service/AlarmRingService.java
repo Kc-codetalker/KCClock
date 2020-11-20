@@ -19,10 +19,14 @@ import android.net.Uri;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmRingActivity;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.CHANNEL_ID;
@@ -46,28 +50,45 @@ public class AlarmRingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String name = intent.getStringExtra(NAME);
-        int hour = intent.getIntExtra(HOUR, 0);
-        int minute = intent.getIntExtra(MINUTE, 0);
+        String alarmType = intent.getStringExtra(ALARM_TYPE);
         boolean isVibrate = intent.getBooleanExtra(VIBRATE, false);
         boolean useSound = intent.getBooleanExtra(USE_SOUND, false);
         String audioUri = intent.getStringExtra(AUDIO_URI);
+        String alarmTitle = "";
 
         Intent notificationIntent = new Intent(this, AlarmRingActivity.class);
-        notificationIntent.putExtra(NAME, name);
-        notificationIntent.putExtra(HOUR, hour);
-        notificationIntent.putExtra(MINUTE, minute);
-        notificationIntent.putExtra(VIBRATE, isVibrate);
-        notificationIntent.putExtra(USE_SOUND, useSound);
-        notificationIntent.putExtra(AUDIO_URI, audioUri);
-        Log.d("Name notif:", name);
-        Log.d("Hour notif:", Integer.toString(hour));
-        Log.d("Minute notif:", Integer.toString(minute));
+        switch (alarmType) {
+            case TIME_BASED_ALARM:
+                String name = intent.getStringExtra(NAME);
+                int hour = intent.getIntExtra(HOUR, 0);
+                int minute = intent.getIntExtra(MINUTE, 0);
+
+                notificationIntent.putExtra(ALARM_TYPE, TIME_BASED_ALARM);
+                notificationIntent.putExtra(NAME, name);
+                notificationIntent.putExtra(HOUR, hour);
+                notificationIntent.putExtra(MINUTE, minute);
+                notificationIntent.putExtra(VIBRATE, isVibrate);
+                notificationIntent.putExtra(USE_SOUND, useSound);
+                notificationIntent.putExtra(AUDIO_URI, audioUri);
+                Log.d("Name notif:", name);
+                Log.d("Hour notif:", Integer.toString(hour));
+                Log.d("Minute notif:", Integer.toString(minute));
+
+                alarmTitle = String.format("%s Alarm", name);
+                break;
+            case EVENT_BASED_ALARM:
+                String event = intent.getStringExtra(EVENT);
+                notificationIntent.putExtra(EVENT, event);
+                notificationIntent.putExtra(VIBRATE, isVibrate);
+                notificationIntent.putExtra(USE_SOUND, useSound);
+                notificationIntent.putExtra(AUDIO_URI, audioUri);
+
+                alarmTitle = String.format("%s Alarm", event);
+                break;
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         this.startRinging(isVibrate, useSound, audioUri);
-
-        String alarmTitle = String.format("%s Alarm", name);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(alarmTitle)
