@@ -81,24 +81,30 @@ public class AlarmDetailActivity extends AppCompatActivity {
     }
 
     private void setUIData() {
-        this.viewModel.getSelectedAlarm().observe(this, id -> {
-            switch(id) {
-                case R.id.radioButtonTimeBased:
-                    this.alarmTypeRadioGroup.check(R.id.radioButtonTimeBased);
-                    setSectionVisibility(R.id.sectionEventBased, View.GONE);
-                    setSectionVisibility(R.id.sectionTimeBased, View.VISIBLE);
-                    setRadioButtonText(R.id.radioButtonEventBased, false);
-                    setRadioButtonText(R.id.radioButtonTimeBased, true);
-                    break;
-                case R.id.radioButtonEventBased:
-                    this.alarmTypeRadioGroup.check(R.id.radioButtonEventBased);
-                    setSectionVisibility(R.id.sectionTimeBased, View.GONE);
-                    setSectionVisibility(R.id.sectionEventBased, View.VISIBLE);
-                    setRadioButtonText(R.id.radioButtonTimeBased, false);
-                    setRadioButtonText(R.id.radioButtonEventBased, true);
-                    break;
-            }
-        });
+        try {
+            this.viewModel.getSelectedAlarm().observe(this, id -> {
+
+                switch(id) {
+                    case R.id.radioButtonEventBased:
+                        this.alarmTypeRadioGroup.check(R.id.radioButtonEventBased);
+                        setSectionVisibility(R.id.sectionTimeBased, View.GONE);
+                        setSectionVisibility(R.id.sectionEventBased, View.VISIBLE);
+                        setRadioButtonText(R.id.radioButtonTimeBased, false);
+                        setRadioButtonText(R.id.radioButtonEventBased, true);
+                        break;
+                    default:
+                        this.alarmTypeRadioGroup.check(R.id.radioButtonTimeBased);
+                        setSectionVisibility(R.id.sectionEventBased, View.GONE);
+                        setSectionVisibility(R.id.sectionTimeBased, View.VISIBLE);
+                        setRadioButtonText(R.id.radioButtonEventBased, false);
+                        setRadioButtonText(R.id.radioButtonTimeBased, true);
+                        break;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -159,7 +165,13 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            Log.d("Event based selected!", "Not implemented yet!!");
+            EventBasedAlarmFragment fragment = (EventBasedAlarmFragment) fragManager.findFragmentById(R.id.sectionEventBased);
+            try {
+                fragment.saveAlarm();
+            } catch (NullPointerException e) {
+                Log.d("[Exception] saveAlarm:", e.toString());
+                e.printStackTrace();
+            }
         }
         finish();
     }
