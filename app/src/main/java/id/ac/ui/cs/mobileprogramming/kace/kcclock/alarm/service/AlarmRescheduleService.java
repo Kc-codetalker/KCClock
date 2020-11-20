@@ -27,7 +27,7 @@ public class AlarmRescheduleService extends JobIntentService {
             AppRepository alarmRepository = new AppRepository(getApplication());
             Log.d("Reschedule alarm", "Preparation now...");
 
-            List<TimeBasedAlarm> alarms = alarmRepository.getAlarmListLiveData().getValue();
+            List<TimeBasedAlarm> alarms = alarmRepository.getTimeBasedAlarmsLiveData().getValue();
             for (TimeBasedAlarm a : alarms) {
                 if (a.isEnabled()) {
                     Log.d("Reshceduling alarm", a.getName());
