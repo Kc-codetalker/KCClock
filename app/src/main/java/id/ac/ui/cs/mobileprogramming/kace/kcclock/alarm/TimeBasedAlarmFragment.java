@@ -240,6 +240,7 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
         alarmViewModel.setIsRingFri(toggleFri.isChecked());
         alarmViewModel.setIsRingSat(toggleSat.isChecked());
         int pos = audioSpinner.getSelectedItemPosition();
+        if (pos == -1) pos = 0;
         Uri audioUri = audioList.get(pos).getUri();
         alarmViewModel.setAudioUri(audioUri.toString());
     }

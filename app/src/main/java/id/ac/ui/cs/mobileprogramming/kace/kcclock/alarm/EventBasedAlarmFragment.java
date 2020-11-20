@@ -169,10 +169,12 @@ public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnI
 
     private void saveStateToViewModel() {
         int eventPos = eventSpinner.getSelectedItemPosition();
+        if (eventPos == -1) eventPos = 0;
         alarmViewModel.setEvent(eventKeys.get(eventPos));
         alarmViewModel.setIsVibrate(vibrateCheckBox.isChecked());
         alarmViewModel.setIsUseSound(soundCheckBox.isChecked());
         int pos = audioSpinner.getSelectedItemPosition();
+        if (pos == -1) pos = 0;
         Uri audioUri = audioList.get(pos).getUri();
         alarmViewModel.setAudioUri(audioUri.toString());
     }
