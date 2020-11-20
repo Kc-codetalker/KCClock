@@ -13,17 +13,15 @@ import java.util.HashMap;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
-
 @Entity(tableName = "event_based_alarm")
 public class EventBasedAlarm extends Alarm {
     @Ignore
     public static final String EVENT_BATTERY_FULL_CHARGE = "EVENT_BATTERY_FULL_CHARGE";
 
     @Ignore
-    public static final HashMap<String, String> EVENT_MAP = new HashMap<String, String>(){{
+    public static final HashMap<String, Integer> EVENT_MAP = new HashMap<String, Integer>(){{
         put(EVENT_BATTERY_FULL_CHARGE,
-                getAppContext().getResources().getString(R.string.event_battery_full_charged));
+                R.string.event_battery_full_charged);
     }};
 
     @PrimaryKey
@@ -74,14 +72,16 @@ public class EventBasedAlarm extends Alarm {
     public void enableAlarm(Context context) {
         this.isEnabled = true;
 
-        String toastText = String.format("Alarm %s enabled", EVENT_MAP.get(event));
+        int eventTextId = EVENT_MAP.get(event);
+        String toastText = String.format("Alarm %s enabled", context.getString(eventTextId));
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
     }
 
     public void disableAlarm(Context context) {
         this.isEnabled = false;
 
-        String toastText = String.format("Alarm %s cancelled", EVENT_MAP.get(event));
+        int eventTextId = EVENT_MAP.get(event);
+        String toastText = String.format("Alarm %s cancelled", context.getString(eventTextId));
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
     }
 }

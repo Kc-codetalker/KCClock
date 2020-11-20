@@ -45,7 +45,7 @@ public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnI
     private EventBasedAlarmViewModel alarmViewModel;
     private List<Audio> audioList;
     private List<String> eventKeys;
-    private List<String> eventValues;
+    private List<Integer> eventValues;
 
     public static EventBasedAlarmFragment newInstance() {
         return new EventBasedAlarmFragment();
@@ -64,7 +64,11 @@ public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnI
         View view =  inflater.inflate(R.layout.fragment_event_based_alarm, container, false);
         ButterKnife.bind(this, view);
 
-        ArrayAdapter<String> eventAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, this.eventValues);
+        List<String> eventStrings = new ArrayList<>();
+        for (int id : eventValues) {
+            eventStrings.add(getString(id));
+        }
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, eventStrings);
         eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         eventSpinner.setAdapter(eventAdapter);
 
@@ -94,7 +98,8 @@ public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
         int viewId = arg0.getId();
         if (viewId == eventSpinner.getId()) {
-            String event = eventValues.get(position);
+            int eventTextId = eventValues.get(position);
+            String event = getString(eventTextId);
             Toast.makeText(getContext(), event , Toast.LENGTH_LONG).show();
         } else if (viewId == audioSpinner.getId()) {
             Audio selectedAudio = audioList.get(position);
@@ -117,10 +122,10 @@ public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnI
 
     private void setEventKeysValues() {
         List<String> keyList = new ArrayList<>();
-        List<String> valueList = new ArrayList<>();
+        List<Integer> valueList = new ArrayList<>();
         for (Map.Entry me : EventBasedAlarm.EVENT_MAP.entrySet()) {
             keyList.add(me.getKey().toString());
-            valueList.add(me.getValue().toString());
+            valueList.add((Integer) me.getValue());
         }
         this.eventKeys = keyList;
         this.eventValues = valueList;

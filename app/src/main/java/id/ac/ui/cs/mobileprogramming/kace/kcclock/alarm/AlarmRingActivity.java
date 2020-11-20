@@ -26,7 +26,6 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
@@ -166,7 +165,8 @@ public class AlarmRingActivity extends AppCompatActivity {
             String date = getCalendarDateStr();
             dateView.setText(date);
         } else {
-            eventView.setText(EVENT_MAP.get(event));
+            int eventTextId = EVENT_MAP.get(event);
+            eventView.setText(getString(eventTextId));
         }
     }
 

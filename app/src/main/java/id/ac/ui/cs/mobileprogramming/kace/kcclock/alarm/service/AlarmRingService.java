@@ -18,7 +18,6 @@ import android.net.Uri;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmRingActivity;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
@@ -30,6 +29,7 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm.EVENT_MAP;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.CHANNEL_ID;
 
 public class AlarmRingService extends Service {
@@ -84,7 +84,8 @@ public class AlarmRingService extends Service {
                 notificationIntent.putExtra(USE_SOUND, useSound);
                 notificationIntent.putExtra(AUDIO_URI, audioUri);
 
-                alarmTitle = String.format("%s Alarm", EventBasedAlarm.EVENT_MAP.get(event));
+                int eventTextId = EVENT_MAP.get(event);
+                alarmTitle = String.format("%s Alarm", getString(eventTextId));
                 break;
         }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);

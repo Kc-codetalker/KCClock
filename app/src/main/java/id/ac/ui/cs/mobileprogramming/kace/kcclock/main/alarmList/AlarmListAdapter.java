@@ -96,7 +96,8 @@ public class AlarmListAdapter extends
             } else {
                 EventBasedAlarm alarm = (EventBasedAlarm) a;
 
-                alarmTime.setText(EventBasedAlarm.EVENT_MAP.get(alarm.getEvent()));
+                int eventTextId = EventBasedAlarm.EVENT_MAP.get(alarm.getEvent());
+                alarmTime.setText(getAppContext().getString(eventTextId));
                 alarmEnableSwitch.setChecked(alarm.isEnabled());
                 alarmRecurrence.setVisibility(View.GONE);
                 alarmName.setVisibility(View.GONE);
