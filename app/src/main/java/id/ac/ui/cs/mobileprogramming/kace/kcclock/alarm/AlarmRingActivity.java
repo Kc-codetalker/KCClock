@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
@@ -22,20 +23,33 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.HOUR;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.MINUTE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.NAME;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm.EVENT_MAP;
 
 public class AlarmRingActivity extends AppCompatActivity {
     @BindView(R.id.dismissButton) Button dismiss;
-    @BindView(R.id.snoozeButton) Button snooze;
-    @BindView(R.id.alarmName) TextView nameView;
-    @BindView(R.id.alarmTime) TextView timeView;
-    @BindView(R.id.alarmDate) TextView dateView;
 
+    @Nullable
+    @BindView(R.id.snoozeButton) Button snooze;
+    @Nullable
+    @BindView(R.id.alarmName) TextView nameView;
+    @Nullable
+    @BindView(R.id.alarmTime) TextView timeView;
+    @Nullable
+    @BindView(R.id.alarmDate) TextView dateView;
+    @Nullable
+    @BindView(R.id.alarmEvent) TextView eventView;
+
+    private String alarmType;
     private String name;
     private int hour;
     private int minute;
@@ -43,19 +57,28 @@ public class AlarmRingActivity extends AppCompatActivity {
     private boolean useSound;
     private String audioUri;
 
+    private String event;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.adjustActivityTheme();
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_alarm_ring);
+
+        Intent intent = getIntent();
+        alarmType = intent.getStringExtra(ALARM_TYPE);
+        if (alarmType.equals(TIME_BASED_ALARM)) {
+            setContentView(R.layout.activity_alarm_ring);
+        } else {
+            setContentView(R.layout.activity_alarm_ring_event);
+        }
 
         ButterKnife.bind(this);
 
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
 
-        this.getIntentExtras(cal);
+        this.getIntentExtras(intent, cal);
         this.setUIData(cal);
 
         dismiss.setOnClickListener(v -> {
@@ -64,23 +87,25 @@ public class AlarmRingActivity extends AppCompatActivity {
             finish();
         });
 
-        snooze.setOnClickListener(v -> {
-            cal.set(Calendar.HOUR_OF_DAY, hour);
-            cal.set(Calendar.MINUTE, minute);
-            cal.add(Calendar.MINUTE, R.integer.default_snooze_mins);
+        if (alarmType.equals(TIME_BASED_ALARM)) {
+            snooze.setOnClickListener(v -> {
+                cal.set(Calendar.HOUR_OF_DAY, hour);
+                cal.set(Calendar.MINUTE, minute);
+                cal.add(Calendar.MINUTE, R.integer.default_snooze_mins);
 
-            int id = new Random().nextInt(Integer.MAX_VALUE);
-            TimeBasedAlarm alarm = new TimeBasedAlarm(id, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
-                    isVibrate, useSound, false, false, false, false, false,
-                    false, false, name, audioUri);
+                int id = new Random().nextInt(Integer.MAX_VALUE);
+                TimeBasedAlarm alarm = new TimeBasedAlarm(id, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true,
+                        isVibrate, useSound, false, false, false, false, false,
+                        false, false, name, audioUri);
 
-            Context ctx = getApplicationContext();
-            alarm.scheduleAlarm(ctx);
+                Context ctx = getApplicationContext();
+                alarm.scheduleAlarm(ctx);
 
-            Intent intentService = new Intent(ctx, AlarmRingService.class);
-            ctx.stopService(intentService);
-            finish();
-        });
+                Intent intentService = new Intent(ctx, AlarmRingService.class);
+                ctx.stopService(intentService);
+                finish();
+            });
+        }
     }
 
     @Override
@@ -89,10 +114,9 @@ public class AlarmRingActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         setIntent(intent);//must store the new intent unless getIntent() will return the old one
 
-
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        this.getIntentExtras(cal);
+        this.getIntentExtras(getIntent(), cal);
     }
 
     private void adjustActivityTheme() {
@@ -107,17 +131,22 @@ public class AlarmRingActivity extends AppCompatActivity {
         }
     }
 
-    private void getIntentExtras(Calendar cal) {
-        Intent intent = getIntent();
-        name = intent.getStringExtra(NAME);
-        hour = intent.getIntExtra(HOUR, cal.get(Calendar.HOUR_OF_DAY));
-        minute = intent.getIntExtra(MINUTE, cal.get(Calendar.MINUTE));
+    private void getIntentExtras(Intent intent, Calendar cal) {
+//        Intent intent = getIntent();
         isVibrate = intent.getBooleanExtra(VIBRATE, false);
         useSound = intent.getBooleanExtra(USE_SOUND, false);
         audioUri = intent.getStringExtra(AUDIO_URI);
-        Log.d("Name activity:", name);
-        Log.d("Hour activity:", Integer.toString(hour));
-        Log.d("Minute activity:", Integer.toString(minute));
+
+        if (alarmType.equals(TIME_BASED_ALARM)) {
+            name = intent.getStringExtra(NAME);
+            hour = intent.getIntExtra(HOUR, cal.get(Calendar.HOUR_OF_DAY));
+            minute = intent.getIntExtra(MINUTE, cal.get(Calendar.MINUTE));
+            Log.d("Name activity:", name);
+            Log.d("Hour activity:", Integer.toString(hour));
+            Log.d("Minute activity:", Integer.toString(minute));
+        } else {
+            event = intent.getStringExtra(EVENT);
+        }
     }
 
     private String getCalendarDateStr() {
@@ -128,13 +157,17 @@ public class AlarmRingActivity extends AppCompatActivity {
     }
 
     private void setUIData(Calendar cal) {
-        nameView.setText(name);
+        if (alarmType.equals(TIME_BASED_ALARM)) {
+            nameView.setText(name);
 
-        String time = String.format("%02d:%02d", hour, minute);
-        timeView.setText(time);
+            String time = String.format("%02d:%02d", hour, minute);
+            timeView.setText(time);
 
-        String date = getCalendarDateStr();
-        dateView.setText(date);
+            String date = getCalendarDateStr();
+            dateView.setText(date);
+        } else {
+            eventView.setText(EVENT_MAP.get(event));
+        }
     }
 
 }

@@ -56,9 +56,9 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
             boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING;
             boolean isFullCharged = status == BatteryManager.BATTERY_STATUS_FULL;
 
-            // CEK DI DB ADA ALARM BATRE YG ENABLED GA
+            boolean alarmEnabled = this.checkAlarmEventEnabled(context, EVENT_BATTERY_FULL_CHARGE);
 
-            if (isFullCharged) {
+            if (alarmEnabled && isFullCharged) {
                 String toastText = String.format("Event Based Alarm Received");
                 Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
                 startAlarmService(context, intent, EVENT_BASED_ALARM, EVENT_BATTERY_FULL_CHARGE);
@@ -110,6 +110,17 @@ public class TimeBasedAlarmReceiver extends BroadcastReceiver {
                 break;
         }
         return false;
+    }
+
+    private boolean checkAlarmEventEnabled(Context ctx, String event) {
+        try {
+            AppRepository repo = new AppRepository(ctx);
+            EventBasedAlarm eventAlarm = repo.getEventBasedAlarmByEvent(event).getValue();
+            return eventAlarm.isEnabled();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void startAlarmService(Context context, Intent intent, String alarmType, String eventType) {
