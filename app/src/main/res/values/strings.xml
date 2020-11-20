@@ -35,4 +35,6 @@
     <string name="title_activity_alarm_ring" translatable="false">AlarmRingActivity</string>
     <string name="snooze">Snooze</string>
     <string name="dismiss">Dismiss</string>
+    <string name="choose_event_text">Choose your event</string>
+    <string name="event_battery_full_charged">Battery fully charged</string>
 </resources>

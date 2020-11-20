@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "426916e34235f6f3e4ee5a9ff947135b",
+    "identityHash": "2f38cd4a3bd91dbcb061f02623ab4edf",
     "entities": [
       {
         "tableName": "time_based_alarm",
@@ -113,12 +113,56 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "event_based_alarm",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event` TEXT NOT NULL, `is_enabled` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `audio_uri` TEXT, PRIMARY KEY(`event`))",
+        "fields": [
+          {
+            "fieldPath": "event",
+            "columnName": "event",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEnabled",
+            "columnName": "is_enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isVibrate",
+            "columnName": "is_vibrate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "useSound",
+            "columnName": "use_sound",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audioUri",
+            "columnName": "audio_uri",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "event"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '426916e34235f6f3e4ee5a9ff947135b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f38cd4a3bd91dbcb061f02623ab4edf')"
     ]
   }
 }

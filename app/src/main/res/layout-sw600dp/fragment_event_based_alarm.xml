@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutEventBasedFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".alarm.EventBasedAlarmFragment">
+
+    <TextView
+        android:id="@+id/chooseYourEventText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/choose_event_text"
+        android:textColor="?attr/activeTextColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerEvent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxVibrate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseYourEventText" />
+
+    <CheckBox
+        android:id="@+id/checkBoxVibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8sp"
+        android:layout_weight="1"
+        android:fontFamily="@font/roboto"
+        android:text="@string/vibrate"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxSound"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerEvent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="8sp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/sound"
+        android:textColor="@color/toggle_active_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxVibrate" />
+
+    <Spinner
+        android:id="@+id/audioSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="10sp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxSound" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

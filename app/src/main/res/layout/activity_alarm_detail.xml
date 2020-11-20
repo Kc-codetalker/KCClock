@@ -61,21 +61,13 @@
                     android:textColor="?attr/inactiveTextColor"
                     android:textSize="22sp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <fragment
                     android:id="@+id/sectionEventBased"
+                    android:name="id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.EventBasedAlarmFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_light"
-                        android:text="@string/app_name"
-                        android:textColor="?attr/activeTextColor"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16sp"
+                    android:layout_marginRight="16sp" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

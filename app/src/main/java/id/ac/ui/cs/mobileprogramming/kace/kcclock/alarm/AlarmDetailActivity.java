@@ -19,6 +19,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
+
 public class AlarmDetailActivity extends AppCompatActivity {
     @BindView(R.id.alarmTypeRadioGroup) RadioGroup alarmTypeRadioGroup;
     @BindView(R.id.radioButtonTimeBased) RadioButton timeBasedRadio;
@@ -62,12 +66,14 @@ public class AlarmDetailActivity extends AppCompatActivity {
 
     private void updateViewModelWithIntent(Intent intent) {
         try {
-            String selectedAlarmStr = intent.getStringExtra("selectedAlarm");
-            switch (selectedAlarmStr) {
-                case "time":
+            String alarmType = intent.getStringExtra(ALARM_TYPE);
+            switch (alarmType) {
+                case TIME_BASED_ALARM:
                     viewModel.setSelectedAlarm(R.id.radioButtonTimeBased);
-                case "event":
+                    break;
+                case EVENT_BASED_ALARM:
                     viewModel.setSelectedAlarm(R.id.radioButtonEventBased);
+                    break;
             }
         } catch (Exception e) {
             Log.d("Exception:", e.toString());
@@ -75,24 +81,30 @@ public class AlarmDetailActivity extends AppCompatActivity {
     }
 
     private void setUIData() {
-        this.viewModel.getSelectedAlarm().observe(this, id -> {
-            switch(id) {
-                case R.id.radioButtonTimeBased:
-                    this.alarmTypeRadioGroup.check(R.id.radioButtonTimeBased);
-                    setSectionVisibility(R.id.sectionEventBased, View.GONE);
-                    setSectionVisibility(R.id.sectionTimeBased, View.VISIBLE);
-                    setRadioButtonText(R.id.radioButtonEventBased, false);
-                    setRadioButtonText(R.id.radioButtonTimeBased, true);
-                    break;
-                case R.id.radioButtonEventBased:
-                    this.alarmTypeRadioGroup.check(R.id.radioButtonEventBased);
-                    setSectionVisibility(R.id.sectionTimeBased, View.GONE);
-                    setSectionVisibility(R.id.sectionEventBased, View.VISIBLE);
-                    setRadioButtonText(R.id.radioButtonTimeBased, false);
-                    setRadioButtonText(R.id.radioButtonEventBased, true);
-                    break;
-            }
-        });
+        try {
+            this.viewModel.getSelectedAlarm().observe(this, id -> {
+
+                switch(id) {
+                    case R.id.radioButtonEventBased:
+                        this.alarmTypeRadioGroup.check(R.id.radioButtonEventBased);
+                        setSectionVisibility(R.id.sectionTimeBased, View.GONE);
+                        setSectionVisibility(R.id.sectionEventBased, View.VISIBLE);
+                        setRadioButtonText(R.id.radioButtonTimeBased, false);
+                        setRadioButtonText(R.id.radioButtonEventBased, true);
+                        break;
+                    default:
+                        this.alarmTypeRadioGroup.check(R.id.radioButtonTimeBased);
+                        setSectionVisibility(R.id.sectionEventBased, View.GONE);
+                        setSectionVisibility(R.id.sectionTimeBased, View.VISIBLE);
+                        setRadioButtonText(R.id.radioButtonEventBased, false);
+                        setRadioButtonText(R.id.radioButtonTimeBased, true);
+                        break;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -153,7 +165,13 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            Log.d("Event based selected!", "Not implemented yet!!");
+            EventBasedAlarmFragment fragment = (EventBasedAlarmFragment) fragManager.findFragmentById(R.id.sectionEventBased);
+            try {
+                fragment.saveAlarm();
+            } catch (NullPointerException e) {
+                Log.d("[Exception] saveAlarm:", e.toString());
+                e.printStackTrace();
+            }
         }
         finish();
     }

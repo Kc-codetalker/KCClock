@@ -3,9 +3,7 @@ package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +28,6 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -244,6 +240,7 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
         alarmViewModel.setIsRingFri(toggleFri.isChecked());
         alarmViewModel.setIsRingSat(toggleSat.isChecked());
         int pos = audioSpinner.getSelectedItemPosition();
+        if (pos == -1) pos = 0;
         Uri audioUri = audioList.get(pos).getUri();
         alarmViewModel.setAudioUri(audioUri.toString());
     }

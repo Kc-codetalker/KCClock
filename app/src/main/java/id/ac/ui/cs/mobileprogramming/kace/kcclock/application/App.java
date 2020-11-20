@@ -4,7 +4,11 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
+
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
 
 public class App extends Application {
     public static final String CHANNEL_ID = "ALARM_NOTIFICATION_CHANNEL";
@@ -18,6 +22,7 @@ public class App extends Application {
         mContext = getApplicationContext();
 
         createNotificationChannnel();
+        registerAlarmReceiver();
     }
 
     private void createNotificationChannnel() {
@@ -31,6 +36,13 @@ public class App extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
+    }
+
+    private void registerAlarmReceiver() {
+        TimeBasedAlarmReceiver receiver = new TimeBasedAlarmReceiver();
+
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        getApplicationContext().registerReceiver(receiver, ifilter);
     }
 
     public static Context getAppContext(){
