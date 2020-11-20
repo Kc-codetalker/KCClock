@@ -19,6 +19,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
+
 public class AlarmDetailActivity extends AppCompatActivity {
     @BindView(R.id.alarmTypeRadioGroup) RadioGroup alarmTypeRadioGroup;
     @BindView(R.id.radioButtonTimeBased) RadioButton timeBasedRadio;
@@ -62,12 +66,14 @@ public class AlarmDetailActivity extends AppCompatActivity {
 
     private void updateViewModelWithIntent(Intent intent) {
         try {
-            String selectedAlarmStr = intent.getStringExtra("selectedAlarm");
-            switch (selectedAlarmStr) {
-                case "time":
+            String alarmType = intent.getStringExtra(ALARM_TYPE);
+            switch (alarmType) {
+                case TIME_BASED_ALARM:
                     viewModel.setSelectedAlarm(R.id.radioButtonTimeBased);
-                case "event":
+                    break;
+                case EVENT_BASED_ALARM:
                     viewModel.setSelectedAlarm(R.id.radioButtonEventBased);
+                    break;
             }
         } catch (Exception e) {
             Log.d("Exception:", e.toString());
