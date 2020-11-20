@@ -9,11 +9,13 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
 public class AlarmListViewModel extends AndroidViewModel {
 
-    private LiveData<List<TimeBasedAlarm>> alarmsLiveData;
+    private LiveData<List<TimeBasedAlarm>> timeBasedAlarmsLiveData;
+    private LiveData<List<EventBasedAlarm>> eventBasedAlarmsLiveData;
 
     private AppRepository repo;
 
@@ -21,14 +23,22 @@ public class AlarmListViewModel extends AndroidViewModel {
         super(application);
 
         repo = new AppRepository(application);
-        alarmsLiveData = repo.getAlarmListLiveData();
+        timeBasedAlarmsLiveData = repo.getTimeBasedAlarmsLiveData();
+        eventBasedAlarmsLiveData = repo.getEventBasedAlarmsLiveData();
     }
 
-    public LiveData<List<TimeBasedAlarm>> getAlarmsLiveData() {
-        return alarmsLiveData;
+    public LiveData<List<TimeBasedAlarm>> getTimeBasedAlarmsLiveData() {
+        return timeBasedAlarmsLiveData;
+    }
+
+    public LiveData<List<EventBasedAlarm>> getEventBasedAlarmsLiveData() {
+        return eventBasedAlarmsLiveData;
     }
 
     public void updateAlarm(TimeBasedAlarm alarm) {
+        repo.update(alarm);
+    }
+    public void updateAlarm(EventBasedAlarm alarm) {
         repo.update(alarm);
     }
 }

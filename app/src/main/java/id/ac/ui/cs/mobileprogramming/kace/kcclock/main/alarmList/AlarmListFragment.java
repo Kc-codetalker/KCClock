@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
 
-public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlarmListener {
+public class AlarmListFragment extends Fragment implements OnToggleAlarmListener {
     @BindView(R.id.alarmListRecyclerView) RecyclerView alarmRecyclerView;
     @BindView(R.id.addAlarmFab) FloatingActionButton fab;
 
@@ -45,9 +45,14 @@ public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlar
 
         alarmRecyclerViewAdapter = new AlarmListAdapter(this);
         alarmListViewModel = ViewModelProviders.of(this).get(AlarmListViewModel.class);
-        alarmListViewModel.getAlarmsLiveData().observe(this, alarms -> {
+        alarmListViewModel.getTimeBasedAlarmsLiveData().observe(this, alarms -> {
             if (alarms != null) {
                 alarmRecyclerViewAdapter.setTimeBasedAlarms(alarms);
+            }
+        });
+        alarmListViewModel.getEventBasedAlarmsLiveData().observe(this, alarms -> {
+            if (alarms != null) {
+                alarmRecyclerViewAdapter.setEventBasedAlarms(alarms);
             }
         });
     }
@@ -86,6 +91,27 @@ public class AlarmListFragment extends Fragment implements OnToggleTimeBasedAlar
         @ColorInt int color = typedValue.data;
 
         alarmTime.setTextColor(color);
+        alarmName.setTextColor(color);
+        alarmRecurrence.setTextColor(color);
+    }
+
+    @Override
+    public void onToggle(EventBasedAlarm alarm, TextView alarmEvent, TextView alarmName,
+                         TextView alarmRecurrence) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = getActivity().getTheme();
+        if (alarm.isEnabled()) {
+            alarm.disableAlarm(getContext());
+            alarmListViewModel.updateAlarm(alarm);
+            theme.resolveAttribute(R.attr.inactiveTextColor, typedValue, true);
+        } else {
+            alarm.enableAlarm(getContext());
+            alarmListViewModel.updateAlarm(alarm);
+            theme.resolveAttribute(R.attr.activeTextColor, typedValue, true);
+        }
+        @ColorInt int color = typedValue.data;
+
+        alarmEvent.setTextColor(color);
         alarmName.setTextColor(color);
         alarmRecurrence.setTextColor(color);
     }
