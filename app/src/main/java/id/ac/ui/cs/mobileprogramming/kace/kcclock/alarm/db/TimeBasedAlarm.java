@@ -36,7 +36,7 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.WEDNESDAY;
 
 @Entity(tableName = "time_based_alarm")
-public class TimeBasedAlarm {
+public class TimeBasedAlarm extends Alarm {
     @PrimaryKey
     private int id;
 
