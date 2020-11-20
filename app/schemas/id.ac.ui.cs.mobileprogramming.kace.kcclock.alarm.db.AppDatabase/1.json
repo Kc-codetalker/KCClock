@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c3bf9b2f11ab6c36e8d8b8c748d1aed5",
+    "identityHash": "2f38cd4a3bd91dbcb061f02623ab4edf",
     "entities": [
       {
         "tableName": "time_based_alarm",
@@ -116,23 +116,17 @@
       },
       {
         "tableName": "event_based_alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `is_enabled` INTEGER NOT NULL, `is_recurring` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `name` TEXT, `event` TEXT, `audio_uri` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`event` TEXT NOT NULL, `is_enabled` INTEGER NOT NULL, `is_vibrate` INTEGER NOT NULL, `use_sound` INTEGER NOT NULL, `audio_uri` TEXT, PRIMARY KEY(`event`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "event",
+            "columnName": "event",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "isEnabled",
             "columnName": "is_enabled",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isRecurring",
-            "columnName": "is_recurring",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -149,18 +143,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "event",
-            "columnName": "event",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "audioUri",
             "columnName": "audio_uri",
             "affinity": "TEXT",
@@ -169,7 +151,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "event"
           ],
           "autoGenerate": false
         },
@@ -180,7 +162,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c3bf9b2f11ab6c36e8d8b8c748d1aed5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f38cd4a3bd91dbcb061f02623ab4edf')"
     ]
   }
 }
