@@ -31,4 +31,6 @@
     <string name="sound">Suara</string>
     <string name="title_clock">Jam</string>
     <string name="vibrate">Getar</string>
+    <string name="choose_event_text">Pilih pemicu</string>
+    <string name="event_battery_full_charged">Pengisian baterai penuh</string>
 </resources>
