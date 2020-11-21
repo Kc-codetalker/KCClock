@@ -8,9 +8,11 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.Calendar;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Alarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppDatabase;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppRepository;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRescheduleService;
@@ -113,10 +115,19 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private boolean checkAlarmEventEnabled(Context ctx, String event) {
+        MutableLiveData<EventBasedAlarm> eventAlarm = new MutableLiveData<>();
         try {
-            AppRepository repo = new AppRepository(ctx);
-            EventBasedAlarm eventAlarm = repo.getEventBasedAlarmByEvent(event).getValue();
-            return eventAlarm.isEnabled();
+//            AppRepository repo = new AppRepository(ctx);
+            AppDatabase.databaseWriteExecutor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    AppRepository repo = new AppRepository(ctx);
+                    /* background thread */
+                    eventAlarm.postValue(repo.getEventBasedAlarmByEvent(event));
+                }
+            });
+//            EventBasedAlarm eventAlarm = repo.getEventBasedAlarmByEvent(event);
+            return eventAlarm.getValue().isEnabled();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -140,13 +151,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 break;
             case EVENT_BASED_ALARM:
                 AppRepository repo = new AppRepository(getAppContext());
-                Alarm alarm = repo.getEventBasedAlarmByEvent(eventType).getValue();
-                if (((EventBasedAlarm) alarm).isEnabled()) {
+                EventBasedAlarm alarm = repo.getEventBasedAlarmByEvent(eventType);
+                if (alarm.isEnabled()) {
                     intentService.putExtra(ALARM_TYPE, EVENT_BASED_ALARM);
-                    intentService.putExtra(EVENT, ((EventBasedAlarm) alarm).getEvent());
-                    intentService.putExtra(VIBRATE, ((EventBasedAlarm) alarm).isVibrate());
-                    intentService.putExtra(USE_SOUND, ((EventBasedAlarm) alarm).isUseSound());
-                    intentService.putExtra(AUDIO_URI, ((EventBasedAlarm) alarm).getAudioUri());
+                    intentService.putExtra(EVENT, alarm.getEvent());
+                    intentService.putExtra(VIBRATE, alarm.isVibrate());
+                    intentService.putExtra(USE_SOUND, alarm.isUseSound());
+                    intentService.putExtra(AUDIO_URI, alarm.getAudioUri());
                 }
                 break;
             default:

@@ -61,11 +61,11 @@ public class AppRepository {
         });
     }
 
-    public LiveData<EventBasedAlarm> getEventBasedAlarmByEvent(String event) {
+    public EventBasedAlarm getEventBasedAlarmByEvent(String event) {
         return eventBasedAlarmDao.getAlarmByEvent(event);
     }
 
-    public LiveData<Setting> getSettingByName(String name) {
+    public Setting getSettingByName(String name) {
         return settingDao.getSettingByName(name);
     }
 

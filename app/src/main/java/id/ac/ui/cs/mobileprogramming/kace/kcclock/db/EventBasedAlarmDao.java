@@ -17,7 +17,7 @@ public interface EventBasedAlarmDao {
     LiveData<List<EventBasedAlarm>> getAll();
 
     @Query("SELECT * FROM event_based_alarm WHERE event LIKE :event LIMIT 1")
-    LiveData<EventBasedAlarm> getAlarmByEvent(String event);
+    EventBasedAlarm getAlarmByEvent(String event);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EventBasedAlarm alarm);

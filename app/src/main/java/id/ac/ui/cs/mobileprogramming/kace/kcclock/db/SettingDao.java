@@ -16,7 +16,7 @@ public interface SettingDao {
     LiveData<List<Setting>> getAll();
 
     @Query("SELECT * FROM setting WHERE setting_name LIKE :name LIMIT 1")
-    LiveData<Setting> getSettingByName(String name);
+    Setting getSettingByName(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Setting setting);
