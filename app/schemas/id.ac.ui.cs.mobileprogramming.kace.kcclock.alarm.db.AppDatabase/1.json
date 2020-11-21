@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2f38cd4a3bd91dbcb061f02623ab4edf",
+    "identityHash": "93cff855e24b6a1a0206a702f79ed4d0",
     "entities": [
       {
         "tableName": "time_based_alarm",
@@ -157,12 +157,38 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "setting",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`setting_name` TEXT NOT NULL, `value` TEXT, PRIMARY KEY(`setting_name`))",
+        "fields": [
+          {
+            "fieldPath": "settingName",
+            "columnName": "setting_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "setting_name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2f38cd4a3bd91dbcb061f02623ab4edf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '93cff855e24b6a1a0206a702f79ed4d0')"
     ]
   }
 }
