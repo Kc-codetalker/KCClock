@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="language_entries">
+        <item>Bahasa Inggris</item>
+        <item>Bahasa Indonesia</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>id</item>
+    </string-array>
+</resources>

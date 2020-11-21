@@ -33,4 +33,7 @@
     <string name="vibrate">Getar</string>
     <string name="choose_event_text">Pilih pemicu</string>
     <string name="event_battery_full_charged">Pengisian baterai penuh</string>
+    <string name="title_activity_settings">Pengaturan</string>
+    <string name="setting_general_header">Umum</string>
+    <string name="setting_language_title">Bahasa</string>
 </resources>
