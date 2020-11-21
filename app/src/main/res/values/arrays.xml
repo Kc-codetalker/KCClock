@@ -1,10 +1,12 @@
 <resources>
     <string-array name="language_entries">
+        <item>System default</item>
         <item>English</item>
         <item>Indonesian</item>
     </string-array>
 
     <string-array name="language_values">
+        <item>default</item>
         <item>en</item>
         <item>id</item>
     </string-array>
