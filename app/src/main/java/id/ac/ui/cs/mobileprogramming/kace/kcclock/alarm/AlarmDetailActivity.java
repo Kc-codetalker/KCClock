@@ -19,9 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT_BASED_ALARM;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.ALARM_TYPE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.EVENT_BASED_ALARM;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.TIME_BASED_ALARM;
 
 public class AlarmDetailActivity extends AppCompatActivity {
     @BindView(R.id.alarmTypeRadioGroup) RadioGroup alarmTypeRadioGroup;

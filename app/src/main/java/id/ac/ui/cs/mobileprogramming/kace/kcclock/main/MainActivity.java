@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.setting.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            // TO-DO: Add setting activity
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 

@@ -27,14 +27,14 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.Audio;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.AudioManager;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.AUDIO_URI;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.EVENT;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.AUDIO_URI;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.EVENT;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.USE_SOUND;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.VIBRATE;
 
 public class EventBasedAlarmFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     @BindView(R.id.spinnerEvent) Spinner eventSpinner;

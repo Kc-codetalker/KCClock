@@ -10,16 +10,16 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Alarm;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Alarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppRepository;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRescheduleService;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm.EVENT_BATTERY_FULL_CHARGE;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm.EVENT_BATTERY_FULL_CHARGE;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
-public class TimeBasedAlarmReceiver extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
     public static final String MONDAY = "ON MONDAY";
     public static final String TUESDAY = "ON TUESDAY";
     public static final String WEDNESDAY = "ON WEDNESDAY";

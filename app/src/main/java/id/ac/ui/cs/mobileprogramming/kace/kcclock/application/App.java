@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver;
 
 public class App extends Application {
     public static final String CHANNEL_ID = "ALARM_NOTIFICATION_CHANNEL";
@@ -39,7 +39,7 @@ public class App extends Application {
     }
 
     private void registerAlarmReceiver() {
-        TimeBasedAlarmReceiver receiver = new TimeBasedAlarmReceiver();
+        AlarmReceiver receiver = new AlarmReceiver();
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         getApplicationContext().registerReceiver(receiver, ifilter);
