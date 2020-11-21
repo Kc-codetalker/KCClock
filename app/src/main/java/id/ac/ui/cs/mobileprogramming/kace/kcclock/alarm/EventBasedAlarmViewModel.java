@@ -1,14 +1,13 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppRepository;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
 
 public class EventBasedAlarmViewModel extends AndroidViewModel {
     private MutableLiveData<String> event = new MutableLiveData<>();

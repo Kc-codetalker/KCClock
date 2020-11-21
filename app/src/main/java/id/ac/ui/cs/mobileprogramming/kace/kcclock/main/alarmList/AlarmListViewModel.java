@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppRepository;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.TimeBasedAlarm;
 
 public class AlarmListViewModel extends AndroidViewModel {
 

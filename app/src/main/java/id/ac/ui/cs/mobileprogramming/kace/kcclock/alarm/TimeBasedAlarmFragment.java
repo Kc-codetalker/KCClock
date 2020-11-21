@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.util.TimePickerUtil;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.Audio;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.AudioManager;

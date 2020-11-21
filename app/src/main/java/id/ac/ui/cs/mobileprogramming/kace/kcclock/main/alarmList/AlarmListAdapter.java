@@ -17,9 +17,9 @@ import java.util.List;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Alarm;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Alarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.TimeBasedAlarm;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;

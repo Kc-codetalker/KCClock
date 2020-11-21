@@ -25,8 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.TimeBasedAlarm;
 
 public class AlarmListFragment extends Fragment implements OnToggleAlarmListener {
     @BindView(R.id.alarmListRecyclerView) RecyclerView alarmRecyclerView;

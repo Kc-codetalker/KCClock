@@ -29,7 +29,7 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm.EVENT_MAP;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm.EVENT_MAP;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.CHANNEL_ID;
 
 public class AlarmRingService extends Service {

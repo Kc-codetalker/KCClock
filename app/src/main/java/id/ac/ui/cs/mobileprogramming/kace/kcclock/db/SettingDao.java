@@ -1,4 +1,4 @@
-package id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db;
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

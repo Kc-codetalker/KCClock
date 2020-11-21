@@ -16,9 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Setting;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Setting;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Setting.SETTING_LANG;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Setting.SETTING_LANG;
 
 public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.spinnerLanguage) Spinner languageSpinner;

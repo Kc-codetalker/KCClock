@@ -11,10 +11,10 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.AppRepository;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Setting;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.AppRepository;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Setting;
 
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.Setting.SETTING_LANG;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.db.Setting.SETTING_LANG;
 
 public class SettingsViewModel extends AndroidViewModel {
     private MutableLiveData<String> selectedLanguageValue = new MutableLiveData<>();

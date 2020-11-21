@@ -27,7 +27,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.Audio;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.media.AudioManager;
 

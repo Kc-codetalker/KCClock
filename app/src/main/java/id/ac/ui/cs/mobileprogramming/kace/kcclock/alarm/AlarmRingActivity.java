@@ -20,7 +20,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.TimeBasedAlarm;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.db.TimeBasedAlarm;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.service.AlarmRingService;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.ALARM_TYPE;
@@ -32,7 +32,7 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.TIME_BASED_ALARM;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.USE_SOUND;
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.TimeBasedAlarmReceiver.VIBRATE;
-import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.db.EventBasedAlarm.EVENT_MAP;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.db.EventBasedAlarm.EVENT_MAP;
 
 public class AlarmRingActivity extends AppCompatActivity {
     @BindView(R.id.dismissButton) Button dismiss;
