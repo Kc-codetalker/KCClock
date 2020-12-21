@@ -52,6 +52,13 @@ import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.broadcastReceiver.AlarmReceiver.WEDNESDAY;
 
 public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    static {
+        System.loadLibrary("native-days-lib");
+    }
+
+    private native String getAlarmDescTextFromJNI(boolean isSun, boolean isMon, boolean isTue, boolean isWed, boolean isThu, boolean isFri, boolean isSat, String nextTime, String everyDay, String every, String sun, String mon, String tue, String wed, String thu, String fri, String sat);
+
     @BindView(R.id.alarmTimePicker) TimePicker timePicker;
     @BindView(R.id.alarmNameField) EditText nameField;
     @BindView(R.id.checkBoxVibrate) CheckBox vibrateCheckBox;
@@ -188,36 +195,26 @@ public class TimeBasedAlarmFragment extends Fragment implements AdapterView.OnIt
 
     private void setAlarmDescText() {
         Activity activity = getActivity();
-        ArrayList<String> days = new ArrayList<>();
-        String desc = activity.getString(R.string.next_time);
 
-        if (toggleSun.isChecked()){
-            days.add(activity.getString(R.string.short_sunday));
-        }
-        if (toggleMon.isChecked()) {
-            days.add(activity.getString(R.string.short_monday));
-        }
-        if (toggleTue.isChecked()) {
-            days.add(activity.getString(R.string.short_tuesday));
-        }
-        if (toggleWed.isChecked()) {
-            days.add(activity.getString(R.string.short_wednesday));
-        }
-        if (toggleThu.isChecked()) {
-            days.add(activity.getString(R.string.short_thursday));
-        }
-        if (toggleFri.isChecked()) {
-            days.add(activity.getString(R.string.short_friday));
-        }
-        if (toggleSat.isChecked()) {
-            days.add(activity.getString(R.string.short_saturday));
-        }
-
-        int dayCount = days.size();
-        if (dayCount == 7) desc = activity.getString(R.string.every_day);
-        else if (dayCount > 0) desc = activity.getString(R.string.every)
-                + " "
-                + android.text.TextUtils.join(", ", days);
+        String desc = getAlarmDescTextFromJNI(
+                toggleSun.isChecked(),
+                toggleMon.isChecked(),
+                toggleTue.isChecked(),
+                toggleWed.isChecked(),
+                toggleThu.isChecked(),
+                toggleFri.isChecked(),
+                toggleSat.isChecked(),
+                activity.getString(R.string.next_time),
+                activity.getString(R.string.every_day),
+                activity.getString(R.string.every),
+                activity.getString(R.string.short_sunday),
+                activity.getString(R.string.short_monday),
+                activity.getString(R.string.short_tuesday),
+                activity.getString(R.string.short_wednesday),
+                activity.getString(R.string.short_thursday),
+                activity.getString(R.string.short_friday),
+                activity.getString(R.string.short_saturday)
+        );
 
         alarmViewModel.setAlarmDayDesc(desc);
     }
