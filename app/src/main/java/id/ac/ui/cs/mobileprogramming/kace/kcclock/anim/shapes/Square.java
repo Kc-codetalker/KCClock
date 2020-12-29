@@ -39,6 +39,9 @@ public class Square {
 
     private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
+    // Set color with red, green, blue and alpha (opacity) values
+    float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
     public Square() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -78,5 +81,39 @@ public class Square {
 
         // creates OpenGL ES program executables
         GLES20.glLinkProgram(mProgram);
+    }
+
+    private int positionHandle;
+    private int colorHandle;
+
+    private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
+    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
+
+    public void draw() {
+        // Add program to OpenGL ES environment
+        GLES20.glUseProgram(mProgram);
+
+        // get handle to vertex shader's vPosition member
+        positionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+
+        // Enable a handle to the triangle vertices
+        GLES20.glEnableVertexAttribArray(positionHandle);
+
+        // Prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(positionHandle, COORDS_PER_VERTEX,
+                GLES20.GL_FLOAT, false,
+                vertexStride, vertexBuffer);
+
+        // get handle to fragment shader's vColor member
+        colorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+
+        // Set color for drawing the triangle
+        GLES20.glUniform4fv(colorHandle, 1, color, 0);
+
+        // Draw the triangle
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
+
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(positionHandle);
     }
 }
