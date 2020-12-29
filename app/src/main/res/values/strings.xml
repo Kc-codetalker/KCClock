@@ -44,4 +44,6 @@
 
     <!-- General Preference -->
     <string name="setting_language_title">Language</string>
+    <string name="action_animation">Animation</string>
+    <string name="appbar_activity_animation">KCClock - Animation</string>
 </resources>
