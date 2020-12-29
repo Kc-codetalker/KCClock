@@ -1,8 +1,12 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes;
 
+import android.opengl.GLES20;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.ClockAnimGLRenderer;
 
 public class Triangle {
 
@@ -18,6 +22,8 @@ public class Triangle {
             "void main() {" +
             "  gl_FragColor = vColor;" +
             "}";
+
+    private int mProgram;
 
     private FloatBuffer vertexBuffer;
 
@@ -46,5 +52,26 @@ public class Triangle {
         vertexBuffer.put(triangleCoords);
         // set the buffer to read the first coordinate
         vertexBuffer.position(0);
+
+        linkProgramAndShader();
+    }
+
+    private void linkProgramAndShader() {
+        int vertexShader = ClockAnimGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
+                vertexShaderCode);
+        int fragmentShader = ClockAnimGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER,
+                fragmentShaderCode);
+
+        // create empty OpenGL ES Program
+        mProgram = GLES20.glCreateProgram();
+
+        // add the vertex shader to program
+        GLES20.glAttachShader(mProgram, vertexShader);
+
+        // add the fragment shader to program
+        GLES20.glAttachShader(mProgram, fragmentShader);
+
+        // creates OpenGL ES program executables
+        GLES20.glLinkProgram(mProgram);
     }
 }
