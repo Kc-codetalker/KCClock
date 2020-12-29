@@ -31,9 +31,6 @@ public class Triangle {
 
     private int mProgram;
 
-    // Use to access and set the view transformation
-    private int vPMatrixHandle;
-
     private FloatBuffer vertexBuffer;
 
     // number of coordinates per vertex in this array
@@ -87,6 +84,9 @@ public class Triangle {
     private int positionHandle;
     private int colorHandle;
 
+    // Use to access and set the view transformation
+    private int vPMatrixHandle;
+
     private final int vertexCount = triangleCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
@@ -106,10 +106,12 @@ public class Triangle {
                 vertexStride, vertexBuffer);
 
         // get handle to fragment shader's vColor member
-        colorHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        colorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
         GLES20.glUniform4fv(colorHandle, 1, color, 0);
+
+        vPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
         // Pass the projection and view transformation to the shader
         GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, mvpMatrix, 0);
