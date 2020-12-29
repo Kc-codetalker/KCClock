@@ -40,10 +40,8 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
         // Draw shape
+        mSquare.draw(vPMatrix);
         mTriangle.draw(vPMatrix);
-
-        mSquare.draw();
-//        mTriangle.draw();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
