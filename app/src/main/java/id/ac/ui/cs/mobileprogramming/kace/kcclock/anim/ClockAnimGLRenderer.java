@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Square;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Triangle;
@@ -12,6 +13,11 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Triangle;
 public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
     private Triangle mTriangle;
     private Square mSquare;
+
+    // vPMatrix is an abbreviation for "Model View Projection Matrix"
+    private final float[] vPMatrix = new float[16];
+    private final float[] projectionMatrix = new float[16];
+    private final float[] viewMatrix = new float[16];
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
@@ -33,6 +39,12 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
+
+        float ratio = (float) width / height;
+
+        // this projection matrix is applied to object coordinates
+        // in the onDrawFrame() method
+        Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
     }
 
     public static int loadShader(int type, String shaderCode){
