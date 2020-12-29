@@ -33,8 +33,17 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
+        // Set the camera position (View matrix)
+        Matrix.setLookAtM(viewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+
+        // Calculate the projection and view transformation
+        Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
+
+        // Draw shape
+        mTriangle.draw(vPMatrix);
+
         mSquare.draw();
-        mTriangle.draw();
+//        mTriangle.draw();
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
