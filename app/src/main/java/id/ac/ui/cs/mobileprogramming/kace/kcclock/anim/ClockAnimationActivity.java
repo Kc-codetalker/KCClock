@@ -9,10 +9,15 @@ import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
 public class ClockAnimationActivity extends AppCompatActivity {
 
+    private ClockAnimSurfaceView glView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clock_animation);
+        // Create a GLSurfaceView instance and set it
+        // as the ContentView for this Activity.
+        glView = new ClockAnimSurfaceView(this);
+        setContentView(glView);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
