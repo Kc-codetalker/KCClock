@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Square;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Triangle;
@@ -19,6 +20,8 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
     private final float[] projectionMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
 
+    private float[] rotationMatrix = new float[16];
+
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
         GLES20.glClearColor(46/255f, 40/255f, 66/255f, 1.0f);
@@ -30,6 +33,8 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
     }
 
     public void onDrawFrame(GL10 unused) {
+        float[] scratch = new float[16];
+
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
@@ -39,9 +44,19 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
+        // Create a rotation transformation for the triangle
+        long time = SystemClock.uptimeMillis() % 4000L;
+        float angle = (-0.090f) * ((int) time);
+        Matrix.setRotateM(rotationMatrix, 0, angle, 0, 0, -1.0f);
+
+        // Combine the rotation matrix with the projection and camera view
+        // Note that the vPMatrix factor *must be first* in order
+        // for the matrix multiplication product to be correct.
+        Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0);
+
         // Draw shape
         mSquare.draw(vPMatrix);
-        mTriangle.draw(vPMatrix);
+        mTriangle.draw(scratch);
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
