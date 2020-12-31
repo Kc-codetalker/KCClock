@@ -8,12 +8,14 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.ClockBackground;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.LongClockHand;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.ShortClockHand;
 
 public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
     private ShortClockHand mShortClockHand;
     private LongClockHand mLongClockHand;
+    private ClockBackground mClockBackground;
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] vPMatrix = new float[16];
@@ -28,6 +30,8 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         mShortClockHand = new ShortClockHand();
         // initialize a square
         mLongClockHand = new LongClockHand();
+
+        mClockBackground = new ClockBackground();
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -42,6 +46,7 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
         // Draw shape
+        mClockBackground.draw(vPMatrix);
         mShortClockHand.draw(rotationMatrix(vPMatrix, -0.0075f, 48000L));
         mLongClockHand.draw(rotationMatrix(vPMatrix, -0.0900f, 4000L));
     }
