@@ -5,10 +5,11 @@ import android.opengl.GLES20;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.ClockAnimGLRenderer;
 
-public class Triangle {
+public class ShortClockHand {
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -32,32 +33,40 @@ public class Triangle {
     private int mProgram;
 
     private FloatBuffer vertexBuffer;
+    private ShortBuffer drawListBuffer;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float triangleCoords[] = {   // in counterclockwise order:
-            0.0f,  1.622008459f, 0.0f, // top
-            -0.5f, 0.711004243f, 0.0f, // bottom left
-            0.5f, 0.711004243f, 0.0f  // bottom right
+    static float clockHandCoords[] = {   // in counterclockwise order:
+            0.0f,  0.3f, 0.0f, // top
+            -0.01f, 0.0f, 0.0f, // left
+            0.0f, -0.05f, 0.0f,  // bottom
+            0.01f, 0.0f, 0.0f  // right
     };
 
-    // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+    private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
-    public Triangle() {
+    // Set color with red, green, blue and alpha (opacity) values
+    float color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+    public ShortClockHand() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (number of coordinate values * 4 bytes per float)
-                triangleCoords.length * 4);
-        // use the device hardware's native byte order
+                // (# of coordinate values * 4 bytes per float)
+                clockHandCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
-
-        // create a floating point buffer from the ByteBuffer
         vertexBuffer = bb.asFloatBuffer();
-        // add the coordinates to the FloatBuffer
-        vertexBuffer.put(triangleCoords);
-        // set the buffer to read the first coordinate
+        vertexBuffer.put(clockHandCoords);
         vertexBuffer.position(0);
+
+        // initialize byte buffer for the draw list
+        ByteBuffer dlb = ByteBuffer.allocateDirect(
+                // (# of coordinate values * 2 bytes per short)
+                drawOrder.length * 2);
+        dlb.order(ByteOrder.nativeOrder());
+        drawListBuffer = dlb.asShortBuffer();
+        drawListBuffer.put(drawOrder);
+        drawListBuffer.position(0);
 
         linkProgramAndShader();
     }
@@ -87,7 +96,7 @@ public class Triangle {
     // Use to access and set the view transformation
     private int vPMatrixHandle;
 
-    private final int vertexCount = triangleCoords.length / COORDS_PER_VERTEX;
+    private final int vertexCount = clockHandCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     public void draw(float[] mvpMatrix) {
@@ -117,7 +126,7 @@ public class Triangle {
         GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, mvpMatrix, 0);
 
         // Draw the triangle
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, vertexCount);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(positionHandle);

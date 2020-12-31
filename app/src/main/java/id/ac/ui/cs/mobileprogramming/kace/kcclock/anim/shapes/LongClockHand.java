@@ -9,7 +9,7 @@ import java.nio.ShortBuffer;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.ClockAnimGLRenderer;
 
-public class Square {
+public class LongClockHand {
 
     private final String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
@@ -32,25 +32,25 @@ public class Square {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float squareCoords[] = {
-            -0.5f,  0.5f, 0.0f,   // top left
-            -0.5f, -0.5f, 0.0f,   // bottom left
-            0.5f, -0.5f, 0.0f,   // bottom right
-            0.5f,  0.5f, 0.0f }; // top right
+    static float clockHandCoords[] = {
+            0.0f,  0.5f, 0.0f,   // top
+            -0.005f, 0.0f, 0.0f,   // left
+            0.0f, -0.1f, 0.0f,   // bottom
+            0.005f, 0.0f, 0.0f }; // right
 
     private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float color[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 
-    public Square() {
+    public LongClockHand() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
-                squareCoords.length * 4);
+                clockHandCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(squareCoords);
+        vertexBuffer.put(clockHandCoords);
         vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
@@ -90,7 +90,7 @@ public class Square {
     // Use to access and set the view transformation
     private int vPMatrixHandle;
 
-    private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
+    private final int vertexCount = clockHandCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     public void draw(float[] mvpMatrix) {
