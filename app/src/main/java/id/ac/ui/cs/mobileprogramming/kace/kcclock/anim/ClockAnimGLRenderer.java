@@ -8,12 +8,12 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.os.SystemClock;
 
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Square;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.Triangle;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.LongClockHand;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.shapes.ShortClockHand;
 
 public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
-    private Triangle mTriangle;
-    private Square mSquare;
+    private ShortClockHand mShortClockHand;
+    private LongClockHand mLongClockHand;
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] vPMatrix = new float[16];
@@ -25,9 +25,9 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(46/255f, 40/255f, 66/255f, 1.0f);
 
         // initialize a triangle
-        mTriangle = new Triangle();
+        mShortClockHand = new ShortClockHand();
         // initialize a square
-        mSquare = new Square();
+        mLongClockHand = new LongClockHand();
     }
 
     public void onDrawFrame(GL10 unused) {
@@ -42,8 +42,8 @@ public class ClockAnimGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
         // Draw shape
-        mSquare.draw(rotationMatrix(vPMatrix, -0.0900f, 4000L));
-        mTriangle.draw(rotationMatrix(vPMatrix, -0.0075f, 48000L));
+        mShortClockHand.draw(rotationMatrix(vPMatrix, -0.0075f, 48000L));
+        mLongClockHand.draw(rotationMatrix(vPMatrix, -0.0900f, 4000L));
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
