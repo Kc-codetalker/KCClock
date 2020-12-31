@@ -15,8 +15,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
-import id.ac.ui.cs.mobileprogramming.kace.kcclock.alarm.AlarmDetailActivity;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.setting.SettingsActivity;
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.ClockAnimationActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_animation) {
+            Intent intent = new Intent(this, ClockAnimationActivity.class);
             startActivity(intent);
             return true;
         }
