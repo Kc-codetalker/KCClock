@@ -84,37 +84,35 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
             weatherAsyncTask = new WeatherAsyncTask(cb);
-            weatherAsyncTask.execute();
+            weatherAsyncTask.execute(location.getLatitude(), location.getLongitude());
         } else {
             requestPermission();
         }
 
     }
 
+    @Override
     public void onDataLoaded(String data) {
         clockViewModel.setText(data);
     }
 
     @Override
     public void onLocationChanged(Location location) {
-//        txtLat = (TextView) findViewById(R.id.textview1);
-//        textClock.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-//        Log.d("Latitude","disable");
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-//        Log.d("Latitude","enable");
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-//        Log.d("Latitude","status");
     }
 
     private boolean checkPermission() {

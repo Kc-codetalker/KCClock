@@ -22,7 +22,7 @@ import java.util.List;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
-public class WeatherAsyncTask extends AsyncTask<String, String, Void> {
+public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
     WeatherCallback mCb;
 
     public interface WeatherCallback {
@@ -33,11 +33,11 @@ public class WeatherAsyncTask extends AsyncTask<String, String, Void> {
         mCb = cb;
     }
 
-    protected Void doInBackground(String... str) {
+    protected Void doInBackground(Double... coords) {
         boolean keepLooping = true;
         while (!isCancelled() && keepLooping) {
             if (isInternetConnected()) {
-                getWeatherFromOpenWeather();
+                getWeatherFromOpenWeather(coords);
             } else {
                 Log.d("WEATHER_JOB", "Prevent API call, no internet connection.");
                 publishProgress("Make sure your device has internet connection to access weather.");
@@ -65,12 +65,11 @@ public class WeatherAsyncTask extends AsyncTask<String, String, Void> {
         return isConnected;
     }
 
-    private void getWeatherFromOpenWeather() {
-        // Instantiate the RequestQueue.
+    private void getWeatherFromOpenWeather(Double... coords) {
         RequestQueue queue = Volley.newRequestQueue(getAppContext());
 
-        double lat = -6.2088;
-        double lon = 106.8456;
+        double lat = coords[0]; // e.g. -6.2088
+        double lon = coords[1]; // e.g. 106.8456
         String apikey = "1ab1bd8961572600d1b31710b863834b";
         String units = "metric";
 
@@ -100,12 +99,11 @@ public class WeatherAsyncTask extends AsyncTask<String, String, Void> {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("WEATHER_RESPONSE", "Weather request error response: " + error.toString());
                         error.printStackTrace();
-                        mCb.onDataLoaded("Make sure your device has internet connection to access weather.");
+                        mCb.onDataLoaded("Internal weather service problem...");
                     }
                 }
         );
 
-        // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest);
     }
 }
