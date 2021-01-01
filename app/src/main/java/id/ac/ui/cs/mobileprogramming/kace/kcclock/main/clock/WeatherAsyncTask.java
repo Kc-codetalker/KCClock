@@ -1,0 +1,79 @@
+package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.clock;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+
+
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
+
+public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
+    WeatherCallback mCb;
+
+    public interface WeatherCallback {
+        public void onDataLoaded(String data);
+    }
+
+    public WeatherAsyncTask(WeatherCallback cb) {
+        mCb = cb;
+    }
+
+    protected Void doInBackground(String... str) {
+        getWeatherFromOpenWeather();
+        return null;
+    }
+
+    private void getWeatherFromOpenWeather() {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getAppContext());
+
+        double lat = -6.2088;
+        double lon = 106.8456;
+        String apikey = "1ab1bd8961572600d1b31710b863834b";
+        String units = "metric";
+
+        String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, apikey, units);
+
+        HashMap<String, List<String>> params = new HashMap<>();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("WEATHER_RESPONSE", "Weather request response: " + response.toString());
+                        try {
+                            JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
+                            String weatherDesc = weather.getString("description");
+                            mCb.onDataLoaded(weatherDesc);
+                        } catch(JSONException e) {
+                            Log.d("Weather Response Error", e.toString());
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("WEATHER_RESPONSE", "Weather request error response: " + error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        );
+
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjectRequest);
+    }
+}
