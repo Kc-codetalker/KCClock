@@ -85,8 +85,27 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
                         Log.d("WEATHER_RESPONSE", "Weather request response: " + response.toString());
                         try {
                             JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
+                            JSONObject coords = response.getJSONObject("coord");
+                            JSONObject main = response.getJSONObject("main");
+                            String locationName = response.getString("name");
+
                             String weatherDesc = weather.getString("description");
-                            mCb.onDataLoaded("Weather: " + weatherDesc);
+                            double lat = coords.getDouble("lat");
+                            double lon = coords.getDouble("lon");
+                            double temp = main.getDouble("temp");
+                            double pressure = main.getDouble("pressure");
+                            double humidity = main.getDouble("humidity");
+
+                            String result = String.format(
+                                    "Weather: %s\nLocation: %s\nLatitude: %.2f\nLongitude: %.2f\n"
+                                            + "Temperature: %.2f\u00B0C\nPressure: %.2f hPa\nHumidity: %.2f%%"
+                                            + "\nUnits system: %s",
+                                    weatherDesc,
+                                    locationName, lat, lon,
+                                    temp, pressure, humidity,
+                                    units
+                            );
+                            mCb.onDataLoaded(result);
                         } catch(JSONException e) {
                             Log.d("Weather Response Error", e.toString());
                             e.printStackTrace();
