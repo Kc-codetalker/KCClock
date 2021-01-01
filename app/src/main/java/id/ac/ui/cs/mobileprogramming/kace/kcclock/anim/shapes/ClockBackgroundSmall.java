@@ -9,26 +9,21 @@ import java.nio.ShortBuffer;
 
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.anim.ClockAnimGLRenderer;
 
-public class ShortClockHand {
+public class ClockBackgroundSmall {
 
     private final String vertexShaderCode =
-            // This matrix member variable provides a hook to manipulate
-            // the coordinates of the objects that use this vertex shader
             "uniform mat4 uMVPMatrix;" +
-            "attribute vec4 vPosition;" +
-            "void main() {" +
-            // the matrix must be included as a modifier of gl_Position
-            // Note that the uMVPMatrix factor *must be first* in order
-            // for the matrix multiplication product to be correct.
-            "  gl_Position = uMVPMatrix * vPosition;" +
-            "}";
+                    "attribute vec4 vPosition;" +
+                    "void main() {" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "}";
 
     private final String fragmentShaderCode =
             "precision mediump float;" +
-            "uniform vec4 vColor;" +
-            "void main() {" +
-            "  gl_FragColor = vColor;" +
-            "}";
+                    "uniform vec4 vColor;" +
+                    "void main() {" +
+                    "  gl_FragColor = vColor;" +
+                    "}";
 
     private int mProgram;
 
@@ -37,26 +32,44 @@ public class ShortClockHand {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float clockHandCoords[] = {   // in counterclockwise order:
-            0.0f,  0.35f, 0.0f, // top
-            -0.01f, 0.0f, 0.0f, // left
-            0.0f, -0.05f, 0.0f,  // bottom
-            0.01f, 0.0f, 0.0f  // right
-    };
+    static float squareCoords[] = {
+            0.0f,  0.4f, 0.0f,        // top
+            -0.2f, 0.34641f, 0.0f,
+            -0.34641f, 0.2f, 0.0f,
+            -0.4f, 0.0f, 0.0f,        // left
+            -0.34641f, -0.2f, 0.0f,
+            -0.2f, -0.34641f, 0.0f,
+            0.0f, -0.4f, 0.0f,        // bottom
+            0.2f, -0.34641f, 0.0f,
+            0.34641f, -0.2f, 0.0f,
+            0.4f, 0.0f, 0.0f,         // right
+            0.34641f, 0.2f, 0.0f,
+            0.2f, 0.34641f, 0.0f, };
 
-    private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
+    private short drawOrder[] = {
+            0, 1, 2,
+            0, 2, 3,
+            0, 3, 4,
+            0, 4, 5,
+            0, 5, 6,
+            0, 6, 7,
+            0, 7, 8,
+            0, 8, 9,
+            0, 9, 10,
+            0, 10, 11
+    }; // order to draw vertices
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float color[] = { 0.2f, 0.7f, 0.55f, 1.0f };
 
-    public ShortClockHand() {
+    public ClockBackgroundSmall() {
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
-                clockHandCoords.length * 4);
+                squareCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(clockHandCoords);
+        vertexBuffer.put(squareCoords);
         vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
@@ -96,7 +109,7 @@ public class ShortClockHand {
     // Use to access and set the view transformation
     private int vPMatrixHandle;
 
-    private final int vertexCount = clockHandCoords.length / COORDS_PER_VERTEX;
+    private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     public void draw(float[] mvpMatrix) {
