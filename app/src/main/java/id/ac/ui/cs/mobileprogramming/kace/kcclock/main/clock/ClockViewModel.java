@@ -9,10 +9,14 @@ public class ClockViewModel extends ViewModel {
 
     public ClockViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is clock fragment");
+        mText.setValue("Fetching weather...");
     }
 
     public LiveData<String> getText() {
         return mText;
+    }
+
+    public void setText(String text) {
+        mText.setValue(text);
     }
 }

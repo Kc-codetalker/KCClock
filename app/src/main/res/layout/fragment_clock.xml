@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36sp"
-        android:fontFamily="@font/roboto_thin"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/app_name"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
