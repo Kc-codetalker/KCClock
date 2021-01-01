@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
 public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherCallback,
         LocationListener {
@@ -83,11 +84,21 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
         if (checkPermission()) {
             locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            try {
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location == null) {
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
 
-            weatherAsyncTask = new WeatherAsyncTask(cb);
-            weatherAsyncTask.execute(location.getLatitude(), location.getLongitude());
+                weatherAsyncTask = new WeatherAsyncTask(cb);
+                weatherAsyncTask.execute(location.getLatitude(), location.getLongitude());
+            } catch (NullPointerException e) {
+                Log.d("Init Weather AsyncTask", e.toString());
+                e.printStackTrace();
+                onDataLoaded("Weather service:\nTurn on device's location service and wait for a moment to access weather service.");
+            }
         } else {
             requestPermission();
         }
@@ -101,23 +112,42 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d("WEATHER_LocationChanged", "Masuk onLocationChanged nih");
+        try {
+            weatherAsyncTask.cancel(true);
+        } catch (Exception e) {
+            Log.d("AsyncTask Cancellation", e.toString());
+            e.printStackTrace();
+        }
+        initWeatherAsyncTask(this);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        // Left empty because provider sudden change to disabled won't change lat long used for weather.
+        // Weather only use the lat long obtain when this fragment got RESUMED and won't change until it get stopped/destroyed and get RESUMED again
     }
 
     @Override
     public void onProviderEnabled(String provider) {
+        // Left empty because even if provider is enabled, Location object can still be null and thus can't obtain lat and long.
+        // So it's useless to re-check location in this callback.
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
+        // Deprecated in API Level 29
     }
 
     private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION);
-        return result == PackageManager.PERMISSION_GRANTED;
+        try {
+            int result = ContextCompat.checkSelfPermission(getAppContext(), ACCESS_FINE_LOCATION);
+            return result == PackageManager.PERMISSION_GRANTED;
+        } catch (Exception e) {
+            Log.d("WEATHER_CheckPermission", e.toString());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void requestPermission() {
@@ -134,17 +164,14 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
                     if (locationAccepted)
                         initWeatherAsyncTask(this);
                     else {
-                        String locationDeniedMsg = "Weather feature:\nYou need to allow location permission for this app to use weather feature.";
+                        String locationDeniedMsg = "Weather service:\nYou need to allow location permission for this app to use weather service.";
                         String locationDeniedDialogMsg = locationDeniedMsg + " You can still use the rest of this app's features without location permission.";
                         onDataLoaded(locationDeniedMsg);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
                                 showMessageOKCancel(locationDeniedDialogMsg,
                                         (dialog, which) -> {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(new String[]{ACCESS_FINE_LOCATION},
-                                                        PERMISSION_REQUEST_CODE);
-                                            }
+                                            requestPermission();
                                         });
                                 return;
                             }
