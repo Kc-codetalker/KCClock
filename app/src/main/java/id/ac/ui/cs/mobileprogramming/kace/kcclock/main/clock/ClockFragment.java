@@ -14,11 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
 
-public class ClockFragment extends Fragment {
+public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherCallback {
+    @BindView(R.id.text_clock) TextView textClock;
 
     private ClockViewModel clockViewModel;
+    private WeatherAsyncTask weatherAsyncTask;
 
     public static ClockFragment newInstance() {
         return new ClockFragment();
@@ -27,7 +31,9 @@ public class ClockFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_clock, container, false);
+        View view = inflater.inflate(R.layout.fragment_clock, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -35,13 +41,19 @@ public class ClockFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         clockViewModel = ViewModelProviders.of(this).get(ClockViewModel.class);
 
-        final TextView textView = getView().findViewById(R.id.text_clock);
         clockViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textClock.setText(s);
             }
         });
+
+        weatherAsyncTask = new WeatherAsyncTask(this);
+        weatherAsyncTask.execute();
+
     }
 
+    public void onDataLoaded(String data) {
+        clockViewModel.setText("Weather: " + data);
+    }
 }
