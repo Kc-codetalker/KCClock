@@ -1,5 +1,8 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.clock;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
@@ -20,7 +23,7 @@ import java.util.List;
 
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
-public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
+public class WeatherAsyncTask extends AsyncTask<String, String, Void> {
     WeatherCallback mCb;
 
     public interface WeatherCallback {
@@ -34,14 +37,33 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... str) {
         boolean keepLooping = true;
         while (!isCancelled() && keepLooping) {
-            getWeatherFromOpenWeather();
+            if (isInternetConnected()) {
+                getWeatherFromOpenWeather();
+            } else {
+                Log.d("WEATHER_JOB", "Prevent API call, no internet connection.");
+                publishProgress("Make sure your device has internet connection to access weather.");
+            }
             try {
-                Thread.sleep(60000);
+                Thread.sleep(5000);
             } catch (Exception e) {
                 keepLooping = false;
             }
         }
         return null;
+    }
+
+    protected void onProgressUpdate(String... value) {
+        mCb.onDataLoaded(value[0]);
+    }
+
+    private boolean isInternetConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     private void getWeatherFromOpenWeather() {
