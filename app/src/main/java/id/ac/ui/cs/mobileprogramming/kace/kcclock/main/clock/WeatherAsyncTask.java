@@ -57,10 +57,11 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
                         try {
                             JSONObject weather = response.getJSONArray("weather").getJSONObject(0);
                             String weatherDesc = weather.getString("description");
-                            mCb.onDataLoaded(weatherDesc);
+                            mCb.onDataLoaded("Weather: " + weatherDesc);
                         } catch(JSONException e) {
                             Log.d("Weather Response Error", e.toString());
                             e.printStackTrace();
+                            mCb.onDataLoaded("No weather data for this location.");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -69,6 +70,7 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("WEATHER_RESPONSE", "Weather request error response: " + error.toString());
                         error.printStackTrace();
+                        mCb.onDataLoaded("Make sure your device has internet connection to access weather.");
                     }
                 }
         );

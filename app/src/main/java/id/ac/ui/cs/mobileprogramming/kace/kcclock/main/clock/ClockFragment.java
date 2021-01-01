@@ -54,6 +54,6 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
     }
 
     public void onDataLoaded(String data) {
-        clockViewModel.setText("Weather: " + data);
+        clockViewModel.setText(data);
     }
 }
