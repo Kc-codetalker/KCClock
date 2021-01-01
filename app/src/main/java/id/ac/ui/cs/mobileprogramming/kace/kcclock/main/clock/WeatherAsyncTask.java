@@ -37,10 +37,10 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
         boolean keepLooping = true;
         while (!isCancelled() && keepLooping) {
             if (isInternetConnected()) {
-                getWeatherFromOpenWeather(coords);
+                getWeatherFromOpenWeather();
             } else {
                 Log.d("WEATHER_JOB", "Prevent API call, no internet connection.");
-                publishProgress("Make sure your device has internet connection to access weather.");
+                publishProgress("Weather service:\nMake sure your device has internet connection to access weather.");
             }
             try {
                 Thread.sleep(5000);
@@ -65,11 +65,11 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
         return isConnected;
     }
 
-    private void getWeatherFromOpenWeather(Double... coords) {
+    private void getWeatherFromOpenWeather() {
         RequestQueue queue = Volley.newRequestQueue(getAppContext());
 
-        double lat = coords[0]; // e.g. -6.2088
-        double lon = coords[1]; // e.g. 106.8456
+        Double lat = ((ClockFragment)mCb).lat; // e.g. -6.2088
+        Double lon = ((ClockFragment)mCb).lon; // e.g. 106.8456
         String apikey = "1ab1bd8961572600d1b31710b863834b";
         String units = "metric";
 
@@ -90,7 +90,7 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
                         } catch(JSONException e) {
                             Log.d("Weather Response Error", e.toString());
                             e.printStackTrace();
-                            mCb.onDataLoaded("No weather data for this location.");
+                            mCb.onDataLoaded("Weather service:\nNo weather data for this location.");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -99,7 +99,7 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("WEATHER_RESPONSE", "Weather request error response: " + error.toString());
                         error.printStackTrace();
-                        mCb.onDataLoaded("Internal weather service problem...");
+                        mCb.onDataLoaded("Weather service:\nCannot find weather for current location. Make sure your device's location service is enabled.");
                     }
                 }
         );

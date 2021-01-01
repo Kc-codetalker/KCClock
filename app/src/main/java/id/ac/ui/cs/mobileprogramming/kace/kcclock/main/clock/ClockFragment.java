@@ -40,6 +40,8 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
     private ClockViewModel clockViewModel;
     private WeatherAsyncTask weatherAsyncTask;
     private LocationManager locationManager;
+    protected Double lat = null;
+    protected Double lon = null;
 
     public static ClockFragment newInstance() {
         return new ClockFragment();
@@ -80,25 +82,39 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
         super.onStop();
     }
 
+    @Override
+    public void onDestroy() {
+        try {
+            weatherAsyncTask.cancel(true);
+        } catch (Exception e) {
+            Log.d("AsyncTask Cancellation", e.toString());
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
     private void initWeatherAsyncTask(WeatherAsyncTask.WeatherCallback cb) {
         if (checkPermission()) {
-            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
             try {
+                locationManager = (LocationManager) getAppContext().getSystemService(Context.LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if (location == null) {
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
 
-                weatherAsyncTask = new WeatherAsyncTask(cb);
-                weatherAsyncTask.execute(location.getLatitude(), location.getLongitude());
+                lat = location.getLatitude();
+                lon = location.getLongitude();
             } catch (NullPointerException e) {
                 Log.d("Init Weather AsyncTask", e.toString());
                 e.printStackTrace();
                 onDataLoaded("Weather service:\nTurn on device's location service and wait for a moment to access weather service.");
             }
+
+            weatherAsyncTask = new WeatherAsyncTask(cb);
+            weatherAsyncTask.execute();
         } else {
             requestPermission();
         }
@@ -112,14 +128,8 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d("WEATHER_LocationChanged", "Masuk onLocationChanged nih");
-        try {
-            weatherAsyncTask.cancel(true);
-        } catch (Exception e) {
-            Log.d("AsyncTask Cancellation", e.toString());
-            e.printStackTrace();
-        }
-        initWeatherAsyncTask(this);
+        lat = location.getLatitude();
+        lon = location.getLongitude();
     }
 
     @Override
@@ -179,8 +189,6 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
 
                     }
                 }
-
-
                 break;
         }
     }
