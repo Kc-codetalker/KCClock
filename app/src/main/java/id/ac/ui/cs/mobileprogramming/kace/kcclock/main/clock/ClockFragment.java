@@ -53,6 +53,12 @@ public class ClockFragment extends Fragment implements WeatherAsyncTask.WeatherC
 
     }
 
+    @Override
+    public void onStop() {
+        weatherAsyncTask.cancel(true);
+        super.onStop();
+    }
+
     public void onDataLoaded(String data) {
         clockViewModel.setText(data);
     }

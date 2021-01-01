@@ -1,6 +1,7 @@
 package id.ac.ui.cs.mobileprogramming.kace.kcclock.main.clock;
 
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -31,7 +32,15 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
     }
 
     protected Void doInBackground(String... str) {
-        getWeatherFromOpenWeather();
+        boolean keepLooping = true;
+        while (!isCancelled() && keepLooping) {
+            getWeatherFromOpenWeather();
+            try {
+                Thread.sleep(60000);
+            } catch (Exception e) {
+                keepLooping = false;
+            }
+        }
         return null;
     }
 
