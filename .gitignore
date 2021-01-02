@@ -48,3 +48,6 @@ output.json
 
 #NDK
 obj/
+
+#Secrets
+**/*/res/values/secrets.xml

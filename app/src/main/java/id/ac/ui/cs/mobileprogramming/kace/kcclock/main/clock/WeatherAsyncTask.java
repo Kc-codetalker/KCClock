@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import id.ac.ui.cs.mobileprogramming.kace.kcclock.R;
+
 import static id.ac.ui.cs.mobileprogramming.kace.kcclock.application.App.getAppContext;
 
 public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
@@ -68,12 +70,12 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
     private void getWeatherFromOpenWeather() {
         RequestQueue queue = Volley.newRequestQueue(getAppContext());
 
-        Double lat = ((ClockFragment)mCb).lat; // e.g. -6.2088
-        Double lon = ((ClockFragment)mCb).lon; // e.g. 106.8456
-        String apikey = "1ab1bd8961572600d1b31710b863834b";
+        Double lat = ((ClockFragment)mCb).lat; // e.g. -7.5088
+        Double lon = ((ClockFragment)mCb).lon; // e.g. 115.8456
+        String api_key = ((ClockFragment) mCb).getString(R.string.open_weather_api_key);
         String units = "metric";
 
-        String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, apikey, units);
+        String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s&units=%s", lat, lon, api_key, units);
 
         HashMap<String, List<String>> params = new HashMap<>();
 
