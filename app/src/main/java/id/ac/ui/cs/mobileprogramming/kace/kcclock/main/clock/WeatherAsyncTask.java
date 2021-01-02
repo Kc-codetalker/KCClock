@@ -109,7 +109,7 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
                         } catch(JSONException e) {
                             Log.d("Weather Response Error", e.toString());
                             e.printStackTrace();
-                            mCb.onDataLoaded("Weather service:\nNo weather data for this location.");
+                            mCb.onDataLoaded("Weather service:\nNo weather data for current location.");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -118,7 +118,7 @@ public class WeatherAsyncTask extends AsyncTask<Double, String, Void> {
                     public void onErrorResponse(VolleyError error) {
                         Log.d("WEATHER_RESPONSE", "Weather request error response: " + error.toString());
                         error.printStackTrace();
-                        mCb.onDataLoaded("Weather service:\nCannot find weather for current location. Make sure your device's location service is enabled.");
+                        mCb.onDataLoaded("Weather service:\nCannot find weather for current location. Make sure your device's internet connection and location service is enabled.");
                     }
                 }
         );
