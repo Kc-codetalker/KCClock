@@ -36,4 +36,6 @@
     <string name="title_activity_settings">Pengaturan</string>
     <string name="setting_general_header">Umum</string>
     <string name="setting_language_title">Bahasa</string>
+    <string name="action_animation">Animasi</string>
+    <string name="appbar_activity_animation">KCClock - Animasi</string>
 </resources>

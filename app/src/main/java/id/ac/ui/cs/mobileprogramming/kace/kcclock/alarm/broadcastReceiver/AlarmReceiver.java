@@ -116,22 +116,24 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private boolean checkAlarmEventEnabled(Context ctx, String event) {
         MutableLiveData<EventBasedAlarm> eventAlarm = new MutableLiveData<>();
-        try {
-//            AppRepository repo = new AppRepository(ctx);
-            AppDatabase.databaseWriteExecutor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    AppRepository repo = new AppRepository(ctx);
-                    /* background thread */
-                    eventAlarm.postValue(repo.getEventBasedAlarmByEvent(event));
-                }
-            });
-//            EventBasedAlarm eventAlarm = repo.getEventBasedAlarmByEvent(event);
-            return eventAlarm.getValue().isEnabled();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        // DISABLE EVENT ALARM FOR NOW
+//        try {
+////            AppRepository repo = new AppRepository(ctx);
+//            AppDatabase.databaseWriteExecutor.submit(new Runnable() {
+//                @Override
+//                public void run() {
+//                    AppRepository repo = new AppRepository(ctx);
+//                    /* background thread */
+//                    eventAlarm.postValue(repo.getEventBasedAlarmByEvent(event));
+//                }
+//            });
+////            EventBasedAlarm eventAlarm = repo.getEventBasedAlarmByEvent(event);
+//            return eventAlarm.getValue().isEnabled();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+        return false;
     }
 
     private void startAlarmService(Context context, Intent intent, String alarmType, String eventType) {
