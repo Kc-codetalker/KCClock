@@ -53,7 +53,7 @@ There are still some bugs or broken features as listed below.
 
 Kevin Christian Chandra
 
-Faculty: Faculty of Computer Science, University of Indonesia
+Faculty: Faculty of Computer Science, Universitas Indonesia
 
 Student ID: 1706039976
 
